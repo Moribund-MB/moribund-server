@@ -73,10 +73,11 @@ fabric.properties
 ### Intellij Patch ###
 # Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
 
-# *.iml
-# modules.xml
-# .idea/misc.xml
-# *.ipr
+*.iml
+modules.xml
+.idea/misc.xml
+*.ipr
+.idea/
 
 # Sonarlint plugin
 .idea/sonarlint
@@ -109,6 +110,9 @@ hs_err_pid*
 ### Gradle ###
 .gradle
 /build/
+/gradle/
+gradlew
+gradlew.bat
 
 # Ignore Gradle GUI config
 gradle-app.setting
