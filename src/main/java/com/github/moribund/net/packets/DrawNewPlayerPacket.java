@@ -1,13 +1,13 @@
 package com.github.moribund.net.packets;
 
+import com.github.moribund.entity.Tile;
+
 public class DrawNewPlayerPacket {
     private final int playerId;
-    private final int x;
-    private final int y;
+    private final Tile tile;
 
-    public DrawNewPlayerPacket(int playerId, int x, int y) {
+    public DrawNewPlayerPacket(int playerId, Tile tile) {
         this.playerId = playerId;
-        this.x = x;
-        this.y = y;
+        this.tile = tile;
     }
 }

@@ -37,21 +37,18 @@ public class AccountListener extends Listener {
     private void sendPlayersToNewPlayer(PlayableCharacter player) {
         // note this includes the newly made player
         val playersMap = MoribundServer.getInstance().getPlayers();
-        List<Pair<Integer, Pair<Integer, Integer>>> listOfPlayerCoordinates = new ArrayList<>();
-        playersMap.forEach((playerId, aPlayer) -> {
-            listOfPlayerCoordinates.add(new Pair<>(playerId, aPlayer.getCurrentTile().toPair()));
-        });
-        val loginPacket = new LoginPacket(player.getPlayerId(), listOfPlayerCoordinates);
+        List<Pair<Integer, Tile>> playerTiles = new ArrayList<>();
+        playersMap.forEach((playerId, aPlayer) ->
+                playerTiles.add(new Pair<>(playerId, aPlayer.getCurrentTile())));
+
+        val loginPacket = new LoginPacket(player.getPlayerId(), playerTiles);
         player.getConnection().sendTCP(loginPacket);
     }
 
     private void sendNewPlayerPacket(PlayableCharacter newPlayer) {
         val playersMap = MoribundServer.getInstance().getPlayers();
-        val newPlayerLoginPacket = new DrawNewPlayerPacket(newPlayer.getPlayerId(),
-                newPlayer.getCurrentTile().getX(), newPlayer.getCurrentTile().getY());
-        playersMap.forEach((playerId, player) -> {
-            player.getConnection().sendTCP(newPlayerLoginPacket);
-        });
+        val newPlayerLoginPacket = new DrawNewPlayerPacket(newPlayer.getPlayerId(), newPlayer.getCurrentTile());
+        playersMap.forEach((playerId, player) -> player.getConnection().sendTCP(newPlayerLoginPacket));
     }
 
     private void makeNewPlayer(int playerId, Connection connection) {

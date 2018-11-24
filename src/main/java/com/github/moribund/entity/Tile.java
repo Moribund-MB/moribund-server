@@ -4,13 +4,16 @@ import javafx.util.Pair;
 import lombok.Data;
 import lombok.val;
 
+import java.io.Serializable;
+
 /**
  * Represents a {@code entity.Coordinate} on the Cartesian coordinate
  * grid of the game. The {@link Data} annotation is used. More
  * info in the link to the annotation.
  */
 @Data
-public class Tile {
+public class Tile implements Serializable {
+    private static final long serialVersionUID = 3010849893269236310L;
     /**
      * The x-coordinate representation.
      */
