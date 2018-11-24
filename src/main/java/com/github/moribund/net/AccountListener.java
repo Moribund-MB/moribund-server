@@ -3,7 +3,7 @@ package com.github.moribund.net;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.github.moribund.MoribundServer;
-import com.github.moribund.entity.Coordinate;
+import com.github.moribund.entity.Tile;
 import com.github.moribund.entity.PlayableCharacter;
 import com.github.moribund.entity.Player;
 import com.github.moribund.net.packets.DrawNewPlayerPacket;
@@ -39,7 +39,7 @@ public class AccountListener extends Listener {
         val playersMap = MoribundServer.getInstance().getPlayers();
         List<Pair<Integer, Pair<Integer, Integer>>> listOfPlayerCoordinates = new ArrayList<>();
         playersMap.forEach((playerId, aPlayer) -> {
-            listOfPlayerCoordinates.add(new Pair<>(playerId, aPlayer.getCurrentCoordinate().toPair()));
+            listOfPlayerCoordinates.add(new Pair<>(playerId, aPlayer.getCurrentTile().toPair()));
         });
         val loginPacket = new LoginPacket(player.getPlayerId(), listOfPlayerCoordinates);
         player.getConnection().sendTCP(loginPacket);
@@ -48,14 +48,14 @@ public class AccountListener extends Listener {
     private void sendNewPlayerPacket(PlayableCharacter newPlayer) {
         val playersMap = MoribundServer.getInstance().getPlayers();
         val newPlayerLoginPacket = new DrawNewPlayerPacket(newPlayer.getPlayerId(),
-                newPlayer.getCurrentCoordinate().getX(), newPlayer.getCurrentCoordinate().getY());
+                newPlayer.getCurrentTile().getX(), newPlayer.getCurrentTile().getY());
         playersMap.forEach((playerId, player) -> {
             player.getConnection().sendTCP(newPlayerLoginPacket);
         });
     }
 
     private void makeNewPlayer(int playerId, Connection connection) {
-        val player = new Player(playerId, new Coordinate(ThreadLocalRandom.current().nextInt(0, 100),
+        val player = new Player(playerId, new Tile(ThreadLocalRandom.current().nextInt(0, 100),
                 ThreadLocalRandom.current().nextInt(0, 100)));
         player.setConnection(connection);
         val playersMap = MoribundServer.getInstance().getPlayers();

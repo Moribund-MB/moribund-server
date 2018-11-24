@@ -3,7 +3,7 @@ package com.github.moribund.entity;
 import com.esotericsoftware.kryonet.Connection;
 
 public interface PlayableCharacter {
-    Coordinate getCurrentCoordinate();
+    Tile getCurrentTile();
     int getPlayerId();
     Connection getConnection();
 }

@@ -7,18 +7,18 @@ import lombok.Setter;
 public class Player implements PlayableCharacter {
     @Getter
     private final int playerId;
-    private Coordinate coordinate;
+    private Tile tile;
     @Getter
     @Setter
     private Connection connection;
 
-    public Player(int playerId, Coordinate startingCoordinate) {
+    public Player(int playerId, Tile startingTile) {
         this.playerId = playerId;
-        coordinate = startingCoordinate;
+        tile = startingTile;
     }
 
     @Override
-    public Coordinate getCurrentCoordinate() {
-        return coordinate;
+    public Tile getCurrentTile() {
+        return tile;
     }
 }
