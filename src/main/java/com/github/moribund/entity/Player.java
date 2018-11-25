@@ -7,6 +7,7 @@ import lombok.Setter;
 public class Player implements PlayableCharacter {
     @Getter
     private final int playerId;
+    @Setter
     private Tile tile;
     @Getter
     @Setter
