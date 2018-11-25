@@ -23,6 +23,10 @@ public class MoribundServer {
         bootstrapper.connect();
     }
 
+    public void sendPacketToEveryone(Object object) {
+        players.forEach((playerId, player) -> player.getConnection().sendTCP(object));
+    }
+
     private void initializePlayersMap() {
         players = new Int2ObjectOpenHashMap<>();
     }
