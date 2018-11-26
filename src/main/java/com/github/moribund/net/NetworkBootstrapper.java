@@ -11,8 +11,17 @@ import javafx.util.Pair;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * The {@code NetworkBootstrapper} class is responsible for giving the
+ * initial instructions to start the networking process and listeners.
+ */
 public class NetworkBootstrapper {
 
+    /**
+     * Connects to the {@link com.esotericsoftware.kryonet.Client} using our
+     * {@link Server}. This method registers the packets before starting the
+     * {@link com.esotericsoftware.kryonet.Connection}.
+     */
     public void connect() {
         Server server = new Server();
         server.addListener(new MovementListener());
@@ -29,6 +38,11 @@ public class NetworkBootstrapper {
         }
     }
 
+    /**
+     * Registers packets that are serialized by {@link Kryo}. Packets
+     * are NOT required to implement {@link Kryo} or {@link com.esotericsoftware.kryo.KryoSerializable}.
+     * @param kryo The {@link Server}'s {@link Kryo}.
+     */
     private void registerPackets(Kryo kryo) {
         kryo.register(DrawNewPlayerPacket.class);
         kryo.register(LoginPacket.class);
