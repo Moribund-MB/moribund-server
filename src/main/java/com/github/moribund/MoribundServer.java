@@ -3,35 +3,37 @@ package com.github.moribund;
 import com.github.moribund.entity.PlayableCharacter;
 import com.github.moribund.net.NetworkBootstrapper;
 import it.unimi.dsi.fastutil.ints.AbstractInt2ObjectMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import lombok.Getter;
 import lombok.val;
 
 public class MoribundServer {
     private static MoribundServer instance;
     @Getter
-    private AbstractInt2ObjectMap<PlayableCharacter> players;
+    private final AbstractInt2ObjectMap<PlayableCharacter> players;
+    private final NetworkBootstrapper networkBootstrapper;
 
-    public static void main(String[] args) {
-        instance = new MoribundServer();
-        instance.setupNetworking();
-        instance.initializePlayersMap();
+    MoribundServer(AbstractInt2ObjectMap<PlayableCharacter> players, NetworkBootstrapper networkBootstrapper) {
+        this.players = players;
+        this.networkBootstrapper = networkBootstrapper;
     }
 
-    private void setupNetworking() {
-        val bootstrapper = new NetworkBootstrapper();
-        bootstrapper.connect();
+    void start() {
+        connectNetworking();
+    }
+
+    private void connectNetworking() {
+        networkBootstrapper.connect();
     }
 
     public void sendPacketToEveryone(Object object) {
         players.forEach((playerId, player) -> player.getConnection().sendTCP(object));
     }
 
-    private void initializePlayersMap() {
-        players = new Int2ObjectOpenHashMap<>();
-    }
-
     public static MoribundServer getInstance() {
+        if (instance == null) {
+            val serverFactory = new MoribundServerFactory();
+            instance = serverFactory.createServer();
+        }
         return instance;
     }
 }
