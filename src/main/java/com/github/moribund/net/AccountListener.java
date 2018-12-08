@@ -3,7 +3,6 @@ package com.github.moribund.net;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.github.moribund.MoribundServer;
-import com.github.moribund.entity.Tile;
 import com.github.moribund.entity.PlayableCharacter;
 import com.github.moribund.entity.Player;
 import com.github.moribund.net.packets.DrawNewPlayerPacket;
@@ -52,11 +51,14 @@ public class AccountListener extends Listener {
     private void sendPlayersToNewPlayer(PlayableCharacter player) {
         // note this includes the newly made player
         val playersMap = MoribundServer.getInstance().getPlayers();
-        List<Pair<Integer, Tile>> playerTiles = new ArrayList<>();
-        playersMap.forEach((playerId, aPlayer) ->
-                playerTiles.add(new Pair<>(playerId, aPlayer.getCurrentTile())));
+        List<Pair<Integer, Pair<Float, Float>>> playerTiles = new ArrayList<>();
+        List<Pair<Integer, Float>> playerRotations = new ArrayList<>();
+        playersMap.forEach((playerId, aPlayer) -> {
+            playerTiles.add(new Pair<>(playerId, new Pair<>(aPlayer.getX(), aPlayer.getY())));
+            playerRotations.add(new Pair<>(playerId, aPlayer.getRotation()));
+        });
 
-        val loginPacket = new LoginPacket(player.getPlayerId(), playerTiles);
+        val loginPacket = new LoginPacket(player.getPlayerId(), playerTiles, playerRotations);
         player.getConnection().sendTCP(loginPacket);
     }
 
@@ -66,7 +68,7 @@ public class AccountListener extends Listener {
      */
     private void sendNewPlayerPacket(PlayableCharacter newPlayer) {
         val playersMap = MoribundServer.getInstance().getPlayers();
-        val newPlayerLoginPacket = new DrawNewPlayerPacket(newPlayer.getPlayerId(), newPlayer.getCurrentTile());
+        val newPlayerLoginPacket = new DrawNewPlayerPacket(newPlayer.getPlayerId(), newPlayer.getX(), newPlayer.getY(), newPlayer.getRotation());
         playersMap.forEach((playerId, player) -> player.getConnection().sendTCP(newPlayerLoginPacket));
     }
 
@@ -78,8 +80,8 @@ public class AccountListener extends Listener {
      * @return The newly made {@link Player}.
      */
     private Player createNewPlayer(int playerId, Connection connection) {
-        val player = new Player(playerId, new Tile(ThreadLocalRandom.current().nextInt(0, 100),
-                ThreadLocalRandom.current().nextInt(0, 100)));
+        val player = new Player(playerId, ThreadLocalRandom.current().nextInt(0, 100),
+                ThreadLocalRandom.current().nextInt(0, 100));
         player.setConnection(connection);
         val playersMap = MoribundServer.getInstance().getPlayers();
         playersMap.putIfAbsent(playerId, player);

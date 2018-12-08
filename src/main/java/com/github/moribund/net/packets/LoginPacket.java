@@ -1,6 +1,5 @@
 package com.github.moribund.net.packets;
 
-import com.github.moribund.entity.Tile;
 import javafx.util.Pair;
 
 import java.util.List;
@@ -20,7 +19,8 @@ public class LoginPacket {
      * game currently so that they may be rendered client-sided to this player
      * logging in.
      */
-    private final List<Pair<Integer, Tile>> playerLocations;
+    private final List<Pair<Integer, Pair<Float, Float>>> playerLocations;
+    private final List<Pair<Integer, Float>> playerRotations;
 
     /**
      * Makes a {@code LoginPacket} by sending the player ID of the logged in
@@ -29,8 +29,10 @@ public class LoginPacket {
      * @param playerId The unique player ID of the player who just logged in.
      * @param playerLocations The locations of all the players in the game to the server's knowledge.
      */
-    public LoginPacket(int playerId, List<Pair<Integer, Tile>> playerLocations) {
+    public LoginPacket(int playerId, List<Pair<Integer, Pair<Float, Float>>> playerLocations,
+                       List<Pair<Integer, Float>> playerRotations) {
         this.playerId = playerId;
         this.playerLocations = playerLocations;
+        this.playerRotations = playerRotations;
     }
 }

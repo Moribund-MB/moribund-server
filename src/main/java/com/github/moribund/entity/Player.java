@@ -16,11 +16,12 @@ public class Player implements PlayableCharacter {
      */
     @Getter
     private final int playerId;
-    /**
-     * The tile the {@code Player} currently resides on.
-     */
-    @Setter
-    private Tile tile;
+    @Getter @Setter
+    private float x;
+    @Getter @Setter
+    private float y;
+    @Getter @Setter
+    private float rotation;
     /**
      * The connection of the server between the client.
      */
@@ -31,15 +32,10 @@ public class Player implements PlayableCharacter {
      * Makes a {@code Player} with its unique player ID and provides the spawn
      * tile the {@code Player} starts at.
      * @param playerId The unique player ID.
-     * @param startingTile The tile the player starts the game at.
      */
-    public Player(int playerId, Tile startingTile) {
+    public Player(int playerId, float startingX, float startingY) {
         this.playerId = playerId;
-        tile = startingTile;
-    }
-
-    @Override
-    public Tile getCurrentTile() {
-        return tile;
+        x = startingX;
+        y = startingY;
     }
 }
