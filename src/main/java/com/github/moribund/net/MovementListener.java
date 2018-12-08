@@ -4,6 +4,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.github.moribund.MoribundServer;
 import com.github.moribund.net.packets.LocationPacket;
+import com.github.moribund.net.packets.RotationPacket;
 import lombok.val;
 
 /**
@@ -19,11 +20,24 @@ public class MovementListener extends Listener {
             val playerId = locationPacket.getPlayerId();
             val x = locationPacket.getX();
             val y = locationPacket.getY();
-            setTileForPlayer(playerId, x, y);
+            setLocationForPlayer(playerId, x, y);
+            connection.sendTCP(locationPacket);
+            // todo perhaps the 100 ms check for locations
+        } else if (object instanceof RotationPacket) {
+            val rotationPacket = (RotationPacket) object;
+            val playerId = rotationPacket.getPlayerId();
+            val angle = rotationPacket.getAngle();
+            setAngleForPlayer(playerId, angle);
+            connection.sendTCP(rotationPacket);
         }
     }
 
-    private void setTileForPlayer(int playerId, float x, float y) {
+    private void setAngleForPlayer(int playerId, float angle) {
+        val player = MoribundServer.getInstance().getPlayers().get(playerId);
+        player.setRotation(angle);
+    }
+
+    private void setLocationForPlayer(int playerId, float x, float y) {
         val player = MoribundServer.getInstance().getPlayers().get(playerId);
         player.setX(x);
         player.setY(y);
