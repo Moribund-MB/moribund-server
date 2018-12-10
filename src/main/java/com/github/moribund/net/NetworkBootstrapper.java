@@ -15,6 +15,8 @@ import java.util.ArrayList;
  */
 public class NetworkBootstrapper {
 
+    private static final int PORT = 43594;
+
     /**
      * Connects to the {@link com.esotericsoftware.kryonet.Client} using our
      * {@link Server}. This method registers the packets before starting the
@@ -30,7 +32,7 @@ public class NetworkBootstrapper {
         server.start();
 
         try {
-            server.bind(43594);
+            server.bind(PORT, PORT);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -55,7 +55,7 @@ public class MoribundServer {
      * @param object The object, or packet, to send everyone.
      */
     public void sendPacketToEveryone(Object object) {
-        players.forEach((playerId, player) -> player.getConnection().sendTCP(object));
+        players.forEach((playerId, player) -> player.getConnection().sendUDP(object));
     }
 
     /**

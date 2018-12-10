@@ -59,7 +59,7 @@ public class AccountListener extends Listener {
         });
 
         val loginPacket = new LoginPacket(player.getPlayerId(), playerTiles, playerRotations);
-        player.getConnection().sendTCP(loginPacket);
+        player.getConnection().sendUDP(loginPacket);
     }
 
     /**
@@ -69,7 +69,7 @@ public class AccountListener extends Listener {
     private void sendNewPlayerPacket(PlayableCharacter newPlayer) {
         val playersMap = MoribundServer.getInstance().getPlayers();
         val newPlayerLoginPacket = new DrawNewPlayerPacket(newPlayer.getPlayerId(), newPlayer.getX(), newPlayer.getY(), newPlayer.getRotation());
-        playersMap.forEach((playerId, player) -> player.getConnection().sendTCP(newPlayerLoginPacket));
+        playersMap.forEach((playerId, player) -> player.getConnection().sendUDP(newPlayerLoginPacket));
     }
 
     /**
