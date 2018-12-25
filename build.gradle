@@ -21,4 +21,6 @@ dependencies {
     compile group: 'com.esotericsoftware', name: 'kryonet', version: '2.22.0-RC1'
     compileOnly 'org.projectlombok:lombok:1.18.4'
     compile group: 'it.unimi.dsi', name: 'fastutil', version: '8.2.2'
+    compile group: 'org.quartz-scheduler', name: 'quartz', version: '2.3.0'
+    compile 'org.slf4j:slf4j-nop:1.7.25'
 }
