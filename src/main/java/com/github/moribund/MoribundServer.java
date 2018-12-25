@@ -1,10 +1,12 @@
 package com.github.moribund;
 
 import com.github.moribund.entity.PlayableCharacter;
+import com.github.moribund.game.GameStateJob;
 import com.github.moribund.net.NetworkBootstrapper;
 import it.unimi.dsi.fastutil.ints.AbstractInt2ObjectMap;
 import lombok.Getter;
 import lombok.val;
+import org.quartz.*;
 
 /**
  * The {@code MoribundSever} class represents the entire game.
@@ -21,6 +23,8 @@ public class MoribundServer {
     @Getter
     private final AbstractInt2ObjectMap<PlayableCharacter> players;
 
+    private final Scheduler scheduler;
+
     /**
      * The network bootstrapper to start networking.
      */
@@ -31,9 +35,10 @@ public class MoribundServer {
      * @param players The list of players in the entire game.
      * @param networkBootstrapper The network bootstrapper to start networking.
      */
-    MoribundServer(AbstractInt2ObjectMap<PlayableCharacter> players, NetworkBootstrapper networkBootstrapper) {
+    MoribundServer(AbstractInt2ObjectMap<PlayableCharacter> players, NetworkBootstrapper networkBootstrapper, Scheduler scheduler) {
         this.players = players;
         this.networkBootstrapper = networkBootstrapper;
+        this.scheduler = scheduler;
     }
 
     /**
@@ -41,6 +46,29 @@ public class MoribundServer {
      */
     void start() {
         connectNetworking();
+        startScheduler();
+        scheduleGameState();
+    }
+
+    private void startScheduler() {
+        try {
+            scheduler.start();
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void scheduleGameState() {
+        try {
+            val timePerTick = 100;
+            val scheduledTime = SimpleScheduleBuilder.simpleSchedule().withIntervalInMilliseconds(timePerTick).repeatForever();
+            val gameStateJobDetail = JobBuilder.newJob(GameStateJob.class).withIdentity("gameStateJob").build();
+            val trigger = TriggerBuilder.newTrigger().withIdentity("gameState").withSchedule(scheduledTime).build();
+
+            scheduler.scheduleJob(gameStateJobDetail, trigger);
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
