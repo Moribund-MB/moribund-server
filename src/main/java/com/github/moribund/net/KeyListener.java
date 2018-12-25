@@ -3,10 +3,10 @@ package com.github.moribund.net;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.github.moribund.MoribundServer;
-import com.github.moribund.net.packets.KeyPressedPacket;
-import com.github.moribund.net.packets.KeyPressedResponsePacket;
-import com.github.moribund.net.packets.KeyUnpressedPacket;
-import com.github.moribund.net.packets.KeyUnpressedResponsePacket;
+import com.github.moribund.net.packets.key.KeyPressedPacket;
+import com.github.moribund.net.packets.key.KeyPressedResponsePacket;
+import com.github.moribund.net.packets.key.KeyUnpressedPacket;
+import com.github.moribund.net.packets.key.KeyUnpressedResponsePacket;
 import lombok.val;
 
 /**

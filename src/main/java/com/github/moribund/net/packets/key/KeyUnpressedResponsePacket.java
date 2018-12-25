@@ -1,4 +1,4 @@
-package com.github.moribund.net.packets;
+package com.github.moribund.net.packets.key;
 
 /**
  * A packet received by the client to allow for client-server latency of

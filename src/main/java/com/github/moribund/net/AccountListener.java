@@ -5,9 +5,9 @@ import com.esotericsoftware.kryonet.Listener;
 import com.github.moribund.MoribundServer;
 import com.github.moribund.entity.PlayableCharacter;
 import com.github.moribund.entity.Player;
-import com.github.moribund.net.packets.DrawNewPlayerPacket;
-import com.github.moribund.net.packets.LoginPacket;
-import com.github.moribund.net.packets.LoginRequestPacket;
+import com.github.moribund.net.packets.account.DrawNewPlayerPacket;
+import com.github.moribund.net.packets.account.LoginPacket;
+import com.github.moribund.net.packets.account.LoginRequestPacket;
 import javafx.util.Pair;
 import lombok.val;
 

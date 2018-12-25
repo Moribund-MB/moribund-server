@@ -1,4 +1,4 @@
-package com.github.moribund.net.packets;
+package com.github.moribund.net.packets.account;
 
 /**
  * An instruction by the server to the client to draw a new

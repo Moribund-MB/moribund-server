@@ -1,4 +1,4 @@
-package com.github.moribund.net.packets;
+package com.github.moribund.net.packets.key;
 
 public class KeyPressedResponsePacket {
     /**
