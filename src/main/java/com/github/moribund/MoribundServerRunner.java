@@ -3,7 +3,7 @@ package com.github.moribund;
 /**
  * The runner that starts the {@link MoribundServer}.
  */
-public class MoribundServerRunner {
+class MoribundServerRunner {
     /**
      * The main method of the program where the game starts from.
      * @param args The program arguments provided.
