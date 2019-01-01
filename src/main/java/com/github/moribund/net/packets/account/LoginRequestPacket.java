@@ -76,8 +76,9 @@ public class LoginRequestPacket implements IncomingPacket {
      * @return The newly made {@link Player}.
      */
     private Player createNewPlayer(int playerId, Connection connection) {
-        val player = new Player(playerId, ThreadLocalRandom.current().nextInt(0, 100),
-                ThreadLocalRandom.current().nextInt(0, 100));
+        val x = ThreadLocalRandom.current().nextInt(0, 100);
+        val y = ThreadLocalRandom.current().nextInt(0, 100);
+        val player = new Player(playerId, x, y);
         player.setConnection(connection);
         return player;
     }
