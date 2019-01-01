@@ -30,6 +30,10 @@ public class LoginRequestPacket implements IncomingPacket {
         val player = createNewPlayer(playerId, connection);
 
         sendNewPlayerPacket(player);
+
+        val playersMap = MoribundServer.getInstance().getPlayers();
+        playersMap.putIfAbsent(playerId, player);
+
         sendPlayersToNewPlayer(player);
     }
 
@@ -75,8 +79,6 @@ public class LoginRequestPacket implements IncomingPacket {
         val player = new Player(playerId, ThreadLocalRandom.current().nextInt(0, 100),
                 ThreadLocalRandom.current().nextInt(0, 100));
         player.setConnection(connection);
-        val playersMap = MoribundServer.getInstance().getPlayers();
-        playersMap.putIfAbsent(playerId, player);
         return player;
     }
 }
