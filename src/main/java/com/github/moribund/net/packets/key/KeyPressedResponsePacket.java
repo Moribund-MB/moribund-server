@@ -1,6 +1,8 @@
 package com.github.moribund.net.packets.key;
 
-public class KeyPressedResponsePacket {
+import com.github.moribund.net.packets.OutgoingPacket;
+
+public class KeyPressedResponsePacket implements OutgoingPacket {
     /**
      * The unique player ID of the player that did pressed a key
      */

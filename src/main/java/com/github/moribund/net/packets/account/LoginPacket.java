@@ -1,5 +1,6 @@
 package com.github.moribund.net.packets.account;
 
+import com.github.moribund.net.packets.OutgoingPacket;
 import javafx.util.Pair;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  * has logged in. This makes the client do instructions by this message's
  * arrival.
  */
-public class LoginPacket {
+public class LoginPacket implements OutgoingPacket {
     /**
      * The unique player ID of the one who just logged in.
      */

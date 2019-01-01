@@ -33,9 +33,7 @@ public class NetworkBootstrapper {
      */
     public void connect() {
         Server server = new Server();
-        server.addListener(new MovementListener());
-        server.addListener(new AccountListener());
-        server.addListener(new KeyListener());
+        server.addListener(new PacketListener());
         registerPackets(server.getKryo());
 
         server.start();

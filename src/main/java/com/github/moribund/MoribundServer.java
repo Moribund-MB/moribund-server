@@ -3,6 +3,7 @@ package com.github.moribund;
 import com.github.moribund.entity.PlayableCharacter;
 import com.github.moribund.game.GameStateJob;
 import com.github.moribund.net.NetworkBootstrapper;
+import com.github.moribund.net.packets.OutgoingPacket;
 import it.unimi.dsi.fastutil.ints.AbstractInt2ObjectMap;
 import lombok.Getter;
 import lombok.val;
@@ -80,10 +81,10 @@ public class MoribundServer {
 
     /**
      * Sends an object, or a packet, to all the {@link MoribundServer#players} through TCP.
-     * @param object The object, or packet, to send everyone.
+     * @param outgoingPacket The outgoing packet to send everyone.
      */
-    public void sendPacketToEveryone(Object object) {
-        players.forEach((playerId, player) -> player.getConnection().sendUDP(object));
+    public void sendPacketToEveryone(OutgoingPacket outgoingPacket) {
+        players.forEach((playerId, player) -> player.getConnection().sendUDP(outgoingPacket));
     }
 
     /**
