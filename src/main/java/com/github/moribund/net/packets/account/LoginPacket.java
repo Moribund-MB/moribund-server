@@ -1,15 +1,16 @@
 package com.github.moribund.net.packets.account;
 
 import com.github.moribund.net.packets.OutgoingPacket;
+import it.unimi.dsi.fastutil.objects.ObjectList;
 import javafx.util.Pair;
-
-import java.util.List;
+import lombok.Value;
 
 /**
  * The response from the server that a {@link com.github.moribund.entity.Player}
  * has logged in. This makes the client do instructions by this message's
  * arrival.
  */
+@Value
 public class LoginPacket implements OutgoingPacket {
     /**
      * The unique player ID of the one who just logged in.
@@ -20,20 +21,6 @@ public class LoginPacket implements OutgoingPacket {
      * game currently so that they may be rendered client-sided to this player
      * logging in.
      */
-    private final List<Pair<Integer, Pair<Float, Float>>> playerLocations;
-    private final List<Pair<Integer, Float>> playerRotations;
-
-    /**
-     * Makes a {@code LoginPacket} by sending the player ID of the logged in
-     * account and the list of player locations for the logged-in player
-     * to render them all.
-     * @param playerId The unique player ID of the player who just logged in.
-     * @param playerLocations The locations of all the players in the game to the server's knowledge.
-     */
-    public LoginPacket(int playerId, List<Pair<Integer, Pair<Float, Float>>> playerLocations,
-                       List<Pair<Integer, Float>> playerRotations) {
-        this.playerId = playerId;
-        this.playerLocations = playerLocations;
-        this.playerRotations = playerRotations;
-    }
+    private final ObjectList<Pair<Integer, Pair<Float, Float>>> playerLocations;
+    private final ObjectList<Pair<Integer, Float>> playerRotations;
 }

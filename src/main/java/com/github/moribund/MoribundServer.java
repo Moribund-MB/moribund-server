@@ -4,7 +4,7 @@ import com.github.moribund.entity.PlayableCharacter;
 import com.github.moribund.game.GameStateJob;
 import com.github.moribund.net.NetworkBootstrapper;
 import com.github.moribund.net.packets.OutgoingPacket;
-import it.unimi.dsi.fastutil.ints.AbstractInt2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import lombok.Getter;
 import lombok.val;
 import org.quartz.*;
@@ -22,7 +22,7 @@ public class MoribundServer {
      * All the {@link PlayableCharacter}s in the game.
      */
     @Getter
-    private final AbstractInt2ObjectMap<PlayableCharacter> players;
+    private final Int2ObjectMap<PlayableCharacter> players;
 
     private final Scheduler scheduler;
 
@@ -36,7 +36,7 @@ public class MoribundServer {
      * @param players The list of players in the entire game.
      * @param networkBootstrapper The network bootstrapper to start networking.
      */
-    MoribundServer(AbstractInt2ObjectMap<PlayableCharacter> players, NetworkBootstrapper networkBootstrapper, Scheduler scheduler) {
+    MoribundServer(Int2ObjectMap<PlayableCharacter> players, NetworkBootstrapper networkBootstrapper, Scheduler scheduler) {
         this.players = players;
         this.networkBootstrapper = networkBootstrapper;
         this.scheduler = scheduler;

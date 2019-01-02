@@ -5,11 +5,11 @@ import com.github.moribund.MoribundServer;
 import com.github.moribund.entity.PlayableCharacter;
 import com.github.moribund.entity.Player;
 import com.github.moribund.net.packets.IncomingPacket;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectList;
 import javafx.util.Pair;
 import lombok.val;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -47,8 +47,8 @@ public class LoginRequestPacket implements IncomingPacket {
     private void sendPlayersToNewPlayer(PlayableCharacter player) {
         // note this includes the newly made player
         val playersMap = MoribundServer.getInstance().getPlayers();
-        List<Pair<Integer, Pair<Float, Float>>> playerTiles = new ArrayList<>();
-        List<Pair<Integer, Float>> playerRotations = new ArrayList<>();
+        ObjectList<Pair<Integer, Pair<Float, Float>>> playerTiles = new ObjectArrayList<>();
+        ObjectList<Pair<Integer, Float>> playerRotations = new ObjectArrayList<>();
         playersMap.forEach((playerId, aPlayer) -> {
             playerTiles.add(new Pair<>(playerId, new Pair<>(aPlayer.getX(), aPlayer.getY())));
             playerRotations.add(new Pair<>(playerId, aPlayer.getRotation()));

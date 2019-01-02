@@ -2,13 +2,12 @@ package com.github.moribund.game;
 
 import com.github.moribund.MoribundServer;
 import com.github.moribund.net.packets.game.GameStatePacket;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectList;
 import javafx.util.Pair;
 import lombok.val;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class GameStateJob implements Job {
 
@@ -20,8 +19,8 @@ public class GameStateJob implements Job {
 
     private GameStatePacket createGameStatePacket() {
         val players = MoribundServer.getInstance().getPlayers();
-        final List<Pair<Integer, Pair<Float, Float>>> playerLocations = new ArrayList<>();
-        final List<Pair<Integer, Float>> playerRotations = new ArrayList<>();
+        final ObjectList<Pair<Integer, Pair<Float, Float>>> playerLocations = new ObjectArrayList<>();
+        final ObjectList<Pair<Integer, Float>> playerRotations = new ObjectArrayList<>();
 
         players.forEach((playerId, player) -> {
             val playerLocation = new Pair<>(player.getX(), player.getY());
