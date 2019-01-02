@@ -15,12 +15,12 @@ public class LoginPacket implements OutgoingPacket {
     /**
      * The unique player ID of the one who just logged in.
      */
-    private final int playerId;
+    private int playerId;
     /**
      * The locations of all the {@link com.github.moribund.entity.Player}s in the
      * game currently so that they may be rendered client-sided to this player
      * logging in.
      */
-    private final ObjectList<Pair<Integer, Pair<Float, Float>>> playerLocations;
-    private final ObjectList<Pair<Integer, Float>> playerRotations;
+    private ObjectList<Pair<Integer, Pair<Float, Float>>> playerLocations;
+    private ObjectList<Pair<Integer, Float>> playerRotations;
 }

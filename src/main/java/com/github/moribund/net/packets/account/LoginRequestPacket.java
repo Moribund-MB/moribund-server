@@ -17,7 +17,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * an account, so it must register that request and follow instructions
  * to handle the player server-sided.
  */
-public class LoginRequestPacket implements IncomingPacket {
+public final class LoginRequestPacket implements IncomingPacket {
     /**
      * A private constructor to ensure the server cannot unexpectedly send this
      * request to the client.
