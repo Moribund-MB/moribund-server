@@ -13,7 +13,19 @@ public class DrawNewPlayerPacket implements OutgoingPacket {
      * The {@link com.github.moribund.entity.Player}'s unique ID.
      */
     private int playerId;
+
+    /**
+     * The x location of the new player.
+     */
     private float x;
+
+    /**
+     * The y location of the new player.
+     */
     private float y;
+
+    /**
+     * The angle of rotation of the new player.
+     */
     private float rotation;
 }

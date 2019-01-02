@@ -9,7 +9,12 @@ import lombok.val;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
-public class GameStateJob implements Job {
+/**
+ * The {@code GameStateJob} is a {@link Job} that is scheduled by the {@link org.quartz.Scheduler} and set to
+ * execute every 100 MS. The executor is {@link MoribundServer#scheduler}. The game state is {@link org.quartz.Trigger}ed
+ * with the identity {@code gameStateJob}. More information on the game state itself exists in {@link GameStatePacket}.
+ */
+public final class GameStateJob implements Job {
 
     @Override
     public void execute(JobExecutionContext context) {
@@ -17,6 +22,10 @@ public class GameStateJob implements Job {
         MoribundServer.getInstance().sendPacketToEveryone(gameStatePacket);
     }
 
+    /**
+     * Creates a packet using all the info in the {@link MoribundServer#players} map.
+     * @return The newly created {@link GameStatePacket} packet.
+     */
     private GameStatePacket createGameStatePacket() {
         val players = MoribundServer.getInstance().getPlayers();
         final ObjectList<Pair<Integer, Pair<Float, Float>>> playerLocations = new ObjectArrayList<>();

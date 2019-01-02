@@ -3,6 +3,9 @@ package com.github.moribund.net.packets.key;
 import com.github.moribund.net.packets.OutgoingPacket;
 import lombok.Value;
 
+/**
+ * The keycode value pressed response back from the server to enact what to do when the key is pressed.
+ */
 @Value
 public class KeyPressedResponsePacket implements OutgoingPacket {
     /**

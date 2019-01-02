@@ -8,7 +8,7 @@ import lombok.Setter;
  * The {@code Player} that represents somebody being controlled by the client
  * of its respective {@link Connection}.
  */
-public class Player implements PlayableCharacter {
+public final class Player implements PlayableCharacter {
 
     /**
      * The unique player ID based on the {@link com.esotericsoftware.kryonet.Connection} of

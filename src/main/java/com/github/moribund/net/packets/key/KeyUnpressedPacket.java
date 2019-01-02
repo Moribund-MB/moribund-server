@@ -6,8 +6,9 @@ import com.github.moribund.net.packets.IncomingPacket;
 import lombok.val;
 
 /**
- * The keycode pressed response back from the server
- * to enact what to do client-sided when the key is released.
+ * Sends a packet to the server as soon as a key is released. Key sending is
+ * synchronous, meaning that it is sent to the server as soon as it happens,
+ * not in accordance to the 100 MS game state.
  */
 public final class KeyUnpressedPacket implements IncomingPacket {
     /**

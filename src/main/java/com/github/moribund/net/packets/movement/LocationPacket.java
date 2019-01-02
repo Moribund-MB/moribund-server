@@ -6,16 +6,24 @@ import com.github.moribund.net.packets.IncomingPacket;
 import lombok.val;
 
 /**
- * The {@code TilePacket} sends the location of a given player to update the server.
- * This is an easy-to-manipulate packet should the client be decompiled
- * and abused, however.
+ * The {@code LocationPacket} sends the x and y coordinates of a given player to update the server.
+ * This packet is sent every LibGDX game cycle by the client and is constantly supplying
+ * the server where the player currently is for as long as a rotation flag is active.
  */
 public final class LocationPacket implements IncomingPacket {
     /**
      * The player ID of the player that is at the given tile.
      */
     private final int playerId;
+
+    /**
+     * The x location of the player.
+     */
     private final float x;
+
+    /**
+     * The y location of the player.
+     */
     private final float y;
 
     public LocationPacket(int playerId, float x, float y) {

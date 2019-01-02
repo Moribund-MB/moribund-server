@@ -25,6 +25,10 @@ class MoribundServerFactory {
         return new MoribundServer(playersMap, networkBootstrapper, scheduler);
     }
 
+    /**
+     * Creates a {@link Scheduler} using a {@link StdSchedulerFactory}.
+     * @return The newly created scheduler.
+     */
     private Scheduler createScheduler() {
         try {
             return new StdSchedulerFactory().getScheduler();

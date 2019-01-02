@@ -25,6 +25,9 @@ import java.io.IOException;
  */
 public class NetworkBootstrapper {
 
+    /**
+     * The port to access.
+     */
     private static final int PORT = 43594;
 
     /**

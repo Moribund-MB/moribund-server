@@ -4,8 +4,7 @@ import com.github.moribund.net.packets.OutgoingPacket;
 import lombok.Value;
 
 /**
- * A packet received by the client to allow for client-server latency of
- * the keycode released by a {@link com.github.moribund.entity.Player}.
+ * The keycode value pressed response back from the server  to enact what to do when the key is released.
  */
 @Value
 public class KeyUnpressedResponsePacket implements OutgoingPacket {

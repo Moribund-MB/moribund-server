@@ -51,6 +51,9 @@ public class MoribundServer {
         scheduleGameState();
     }
 
+    /**
+     * Starts a {@link Scheduler}.
+     */
     private void startScheduler() {
         try {
             scheduler.start();
@@ -59,6 +62,10 @@ public class MoribundServer {
         }
     }
 
+    /**
+     * Schedules the {@link GameStateJob}. For more information of the game state, refer to both {@link GameStateJob}
+     * and {@link com.github.moribund.net.packets.game.GameStatePacket}.
+     */
     private void scheduleGameState() {
         try {
             val timePerTick = 100;

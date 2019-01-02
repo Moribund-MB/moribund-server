@@ -6,8 +6,9 @@ import com.github.moribund.net.packets.IncomingPacket;
 import lombok.val;
 
 /**
- * A packet received by the client to allow for client-server latency of
- * the keycode pressed by a {@link com.github.moribund.entity.Player}.
+ * Sends a packet to the server as soon as a key is pressed. Key sending is
+ * synchronous, meaning that it is sent to the server as soon as it happens,
+ * not in accordance to the 100 MS game state.
  */
 public final class KeyPressedPacket implements IncomingPacket {
     /**
