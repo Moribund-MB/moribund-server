@@ -17,12 +17,12 @@ import java.util.concurrent.ThreadLocalRandom;
  * an account, so it must register that request and follow instructions
  * to handle the player server-sided.
  */
-public final class LoginRequestPacket implements IncomingPacket {
+public final class CreateNewPlayerRequestPacket implements IncomingPacket {
     /**
      * A private constructor to ensure the server cannot unexpectedly send this
      * request to the client.
      */
-    private LoginRequestPacket() { }
+    private CreateNewPlayerRequestPacket() { }
 
     @Override
     public void process(Connection connection) {
@@ -39,7 +39,7 @@ public final class LoginRequestPacket implements IncomingPacket {
 
 
     /**
-     * Sends the {@link LoginPacket} to the newly made player. An important thing
+     * Sends the {@link CreateNewPlayerPacket} to the newly made player. An important thing
      * to note is that this sends a list of players that includes the newly made player
      * him/her self.
      * @param player The newly made {@link Player}.
@@ -54,7 +54,7 @@ public final class LoginRequestPacket implements IncomingPacket {
             playerRotations.add(new Pair<>(playerId, aPlayer.getRotation()));
         });
 
-        val loginPacket = new LoginPacket(player.getPlayerId(), playerTiles, playerRotations);
+        val loginPacket = new CreateNewPlayerPacket(player.getPlayerId(), playerTiles, playerRotations);
         player.getConnection().sendUDP(loginPacket);
     }
 
