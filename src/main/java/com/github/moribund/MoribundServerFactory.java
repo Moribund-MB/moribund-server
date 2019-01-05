@@ -2,6 +2,8 @@ package com.github.moribund;
 
 import com.github.moribund.entity.PlayableCharacter;
 import com.github.moribund.net.NetworkBootstrapper;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import lombok.val;
@@ -22,7 +24,20 @@ class MoribundServerFactory {
         val playersMap = createPlayersMap();
         val networkBootstrapper = createNetworkBootstrapper();
         val scheduler = createScheduler();
-        return new MoribundServer(playersMap, networkBootstrapper, scheduler);
+        val dataSource = createHikariDataSource();
+        return new MoribundServer(playersMap, networkBootstrapper, scheduler, dataSource);
+    }
+
+    private HikariDataSource createHikariDataSource() {
+        val config = new HikariConfig();
+
+        config.setJdbcUrl("jdbc:postgresql://localhost:5432/moribund");
+        config.setUsername("moribund-user");
+        config.setPassword("moribund-pass");
+        config.setAutoCommit(true);
+        config.setMaximumPoolSize(32);
+
+        return new HikariDataSource(config);
     }
 
     /**

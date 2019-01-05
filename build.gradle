@@ -1,3 +1,6 @@
+import groovy.xml.MarkupBuilder
+import org.jooq.codegen.GenerationTool
+
 apply plugin: 'java'
 
 version = '0.2-SNAPSHOT'
@@ -14,6 +17,7 @@ sourceSets {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -23,4 +27,51 @@ dependencies {
     compile group: 'it.unimi.dsi', name: 'fastutil', version: '8.2.2'
     compile group: 'org.quartz-scheduler', name: 'quartz', version: '2.3.0'
     compile 'org.slf4j:slf4j-nop:1.7.25'
+    compile 'org.jooq:jooq:3.11.9'
+    runtime group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
+    compile group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
+}
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.jooq:jooq-codegen:3.11.9'
+        classpath group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
+    }
+}
+
+task generate << {
+    def writer = new StringWriter()
+    def xml = new MarkupBuilder(writer)
+            .configuration('xmlns': 'http://www.jooq.org/xsd/jooq-codegen-3.11.0.xsd') {
+        jdbc() {
+            driver('org.postgresql.Driver')
+            url('jdbc:postgresql://localhost:5432/moribund')
+            user('moribund-user')
+            password('moribund-pass')
+            inputSchema('public')
+        }
+        database() {
+            inputSchema('public_')
+        }
+        generator() {
+            database() {
+            }
+
+            generate([:]) {
+                pojos true
+                daos true
+            }
+            target() {
+                packageName('com.github.moribund.jooq')
+                directory('src/main/java/')
+            }
+        }
+    }
+
+    GenerationTool.generate(writer.toString())
 }

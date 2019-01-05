@@ -4,6 +4,7 @@ import com.github.moribund.entity.PlayableCharacter;
 import com.github.moribund.game.GameStateJob;
 import com.github.moribund.net.NetworkBootstrapper;
 import com.github.moribund.net.packets.OutgoingPacket;
+import com.zaxxer.hikari.HikariDataSource;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import lombok.Getter;
 import lombok.val;
@@ -25,6 +26,8 @@ public class MoribundServer {
     private final Int2ObjectMap<PlayableCharacter> players;
 
     private final Scheduler scheduler;
+    @Getter
+    private final HikariDataSource dataSource;
 
     /**
      * The network bootstrapper to start networking.
@@ -35,11 +38,13 @@ public class MoribundServer {
      * Constructor that provides the {@code MoribundServer} its dependencies.
      * @param players The list of players in the entire game.
      * @param networkBootstrapper The network bootstrapper to start networking.
+     * @param dataSource
      */
-    MoribundServer(Int2ObjectMap<PlayableCharacter> players, NetworkBootstrapper networkBootstrapper, Scheduler scheduler) {
+    MoribundServer(Int2ObjectMap<PlayableCharacter> players, NetworkBootstrapper networkBootstrapper, Scheduler scheduler, HikariDataSource dataSource) {
         this.players = players;
         this.networkBootstrapper = networkBootstrapper;
         this.scheduler = scheduler;
+        this.dataSource = dataSource;
     }
 
     /**
@@ -49,6 +54,7 @@ public class MoribundServer {
         connectNetworking();
         startScheduler();
         scheduleGameState();
+        getDataSource();
     }
 
     /**
