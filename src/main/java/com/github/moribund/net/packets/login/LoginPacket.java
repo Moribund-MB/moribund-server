@@ -28,7 +28,7 @@ public final class LoginPacket implements IncomingPacket {
             if (BCrypt.checkpw(password, playersRecord.getPasswordHash())) {
                 connection.sendTCP(new LoginResponsePacket(LoginResponse.SUCCESS));
             } else {
-                connection.sendTCP(new LoginResponsePacket(LoginResponse.INCORRECT_CREDENTIALS));
+                connection.sendTCP(new LoginResponsePacket(LoginResponse.INCORRECT_PASSWORD));
             }
         } catch (NoDataFoundException e) {
             createAccount(dslContext);
