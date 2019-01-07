@@ -2,10 +2,10 @@ package com.github.moribund.net.packets.account;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.github.moribund.MoribundServer;
-import com.github.moribund.entity.PlayableCharacter;
-import com.github.moribund.entity.Player;
 import com.github.moribund.game.Game;
 import com.github.moribund.net.packets.IncomingPacket;
+import com.github.moribund.objects.playable.PlayableCharacter;
+import com.github.moribund.objects.playable.Player;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import javafx.util.Pair;
@@ -47,12 +47,14 @@ public final class CreateNewPlayerRequestPacket implements IncomingPacket {
         // note this includes the newly made player
         ObjectList<Pair<Integer, Pair<Float, Float>>> playerTiles = new ObjectArrayList<>();
         ObjectList<Pair<Integer, Float>> playerRotations = new ObjectArrayList<>();
+        ObjectList<Pair<Integer, Pair<Float, Float>>> groundItems = new ObjectArrayList<>();
         game.forEachPlayer((playerId, aPlayer) -> {
             playerTiles.add(new Pair<>(playerId, new Pair<>(aPlayer.getX(), aPlayer.getY())));
             playerRotations.add(new Pair<>(playerId, aPlayer.getRotation()));
         });
+        game.getGroundItems().forEach(item -> groundItems.add(new Pair<>(item.getItemType().getId(), new Pair<>(item.getX(), item.getY()))));
 
-        val loginPacket = new CreateNewPlayerPacket(player.getGameId(), player.getPlayerId(), playerTiles, playerRotations);
+        val loginPacket = new CreateNewPlayerPacket(player.getGameId(), player.getPlayerId(), playerTiles, playerRotations, groundItems);
         player.getConnection().sendTCP(loginPacket);
     }
 

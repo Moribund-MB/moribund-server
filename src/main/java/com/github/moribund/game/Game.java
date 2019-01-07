@@ -1,11 +1,19 @@
 package com.github.moribund.game;
 
-import com.github.moribund.entity.PlayableCharacter;
-import com.github.moribund.entity.Player;
+import com.github.moribund.GraphicalConstants;
 import com.github.moribund.net.packets.OutgoingPacket;
+import com.github.moribund.objects.nonplayable.GroundItem;
+import com.github.moribund.objects.nonplayable.GroundItemType;
+import com.github.moribund.objects.playable.PlayableCharacter;
+import com.github.moribund.objects.playable.Player;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArraySet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import lombok.Getter;
+import lombok.val;
 
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -13,10 +21,13 @@ public class Game {
     @Getter
     private final int gameId;
     private final Int2ObjectMap<PlayableCharacter> players;
+    @Getter
+    private final ObjectSet<GroundItem> groundItems;
 
-    public Game(int gameId, Int2ObjectMap<PlayableCharacter> players) {
+    Game(int gameId) {
         this.gameId = gameId;
-        this.players = players;
+        players = new Int2ObjectOpenHashMap<>();
+        groundItems = new ObjectArraySet<>();
     }
 
     /**
@@ -57,5 +68,16 @@ public class Game {
 
     public boolean containsPlayer(int playerId) {
         return players.containsKey(playerId);
+    }
+
+    void setup() {
+        val itemsOnGround = ThreadLocalRandom.current().nextInt(5, 10);
+        for (int i = 0; i < itemsOnGround; i++) {
+            val itemType = GroundItemType.random();
+            val x = (float) ThreadLocalRandom.current().nextDouble(GraphicalConstants.MINIMUM_X, GraphicalConstants.MAXIMUM_X);
+            val y = (float) ThreadLocalRandom.current().nextDouble(GraphicalConstants.MINIMUM_Y, GraphicalConstants.MAXIMUM_Y);
+            val groundItem = new GroundItem(itemType, x, y);
+            groundItems.add(groundItem);
+        }
     }
 }

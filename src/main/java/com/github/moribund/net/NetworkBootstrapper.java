@@ -17,6 +17,7 @@ import com.github.moribund.net.packets.login.LoginResponse;
 import com.github.moribund.net.packets.login.LoginResponsePacket;
 import com.github.moribund.net.packets.movement.LocationPacket;
 import com.github.moribund.net.packets.movement.RotationPacket;
+import com.github.moribund.objects.nonplayable.GroundItemType;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import javafx.util.Pair;
 
@@ -75,5 +76,6 @@ public class NetworkBootstrapper {
         kryo.register(LoginPacket.class);
         kryo.register(LoginResponse.class, new JavaSerializer());
         kryo.register(LoginResponsePacket.class);
+        kryo.register(GroundItemType.class, new JavaSerializer());
     }
 }
