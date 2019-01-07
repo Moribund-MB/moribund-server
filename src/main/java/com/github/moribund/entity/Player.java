@@ -10,6 +10,8 @@ import lombok.Setter;
  */
 public final class Player implements PlayableCharacter {
 
+    @Getter
+    private final int gameId;
     /**
      * The unique player ID based on the {@link com.esotericsoftware.kryonet.Connection} of
      * the client to the server.
@@ -33,7 +35,8 @@ public final class Player implements PlayableCharacter {
      * tile the {@code Player} starts at.
      * @param playerId The unique player ID.
      */
-    public Player(int playerId, float startingX, float startingY) {
+    public Player(int gameId, int playerId, float startingX, float startingY) {
+        this.gameId = gameId;
         this.playerId = playerId;
         x = startingX;
         y = startingY;

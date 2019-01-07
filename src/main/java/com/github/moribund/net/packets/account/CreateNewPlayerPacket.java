@@ -12,6 +12,7 @@ import lombok.Value;
  */
 @Value
 public class CreateNewPlayerPacket implements OutgoingPacket {
+    private int gameId;
     /**
      * The unique player ID of the one who just logged in.
      */

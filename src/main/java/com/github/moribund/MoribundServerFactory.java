@@ -1,10 +1,9 @@
 package com.github.moribund;
 
-import com.github.moribund.entity.PlayableCharacter;
+import com.github.moribund.game.GameContainer;
 import com.github.moribund.net.NetworkBootstrapper;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import lombok.val;
 import org.quartz.Scheduler;
@@ -21,7 +20,7 @@ class MoribundServerFactory {
      * @return The newly made {@link MoribundServer}.
      */
     MoribundServer createServer() {
-        val playersMap = createPlayersMap();
+        val playersMap = createGameContainer();
         val networkBootstrapper = createNetworkBootstrapper();
         val scheduler = createScheduler();
         val dataSource = createHikariDataSource();
@@ -53,12 +52,8 @@ class MoribundServerFactory {
         return null;
     }
 
-    /**
-     * Creates an empty map of all the players in the game.
-     * @return The newly made empty map of players.
-     */
-    private Int2ObjectMap<PlayableCharacter> createPlayersMap() {
-        return new Int2ObjectOpenHashMap<>();
+    private GameContainer createGameContainer() {
+        return new GameContainer(new Int2ObjectOpenHashMap<>());
     }
 
     /**

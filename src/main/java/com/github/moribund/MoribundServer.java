@@ -1,11 +1,9 @@
 package com.github.moribund;
 
-import com.github.moribund.entity.PlayableCharacter;
+import com.github.moribund.game.GameContainer;
 import com.github.moribund.game.GameStateJob;
 import com.github.moribund.net.NetworkBootstrapper;
-import com.github.moribund.net.packets.OutgoingPacket;
 import com.zaxxer.hikari.HikariDataSource;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import lombok.Getter;
 import lombok.val;
 import org.quartz.*;
@@ -19,12 +17,6 @@ public class MoribundServer {
      */
     private static MoribundServer instance;
 
-    /**
-     * All the {@link PlayableCharacter}s in the game.
-     */
-    @Getter
-    private final Int2ObjectMap<PlayableCharacter> players;
-
     private final Scheduler scheduler;
     @Getter
     private final HikariDataSource dataSource;
@@ -33,15 +25,17 @@ public class MoribundServer {
      * The network bootstrapper to start networking.
      */
     private final NetworkBootstrapper networkBootstrapper;
+    @Getter
+    private final GameContainer gameContainer;
 
     /**
      * Constructor that provides the {@code MoribundServer} its dependencies.
-     * @param players The list of players in the entire game.
+     * @param gameContainer The container that holds all the games and functions for them.
      * @param networkBootstrapper The network bootstrapper to start networking.
-     * @param dataSource
+     * @param dataSource The Hikari datasource to establish an SQL connection.
      */
-    MoribundServer(Int2ObjectMap<PlayableCharacter> players, NetworkBootstrapper networkBootstrapper, Scheduler scheduler, HikariDataSource dataSource) {
-        this.players = players;
+    MoribundServer(GameContainer gameContainer, NetworkBootstrapper networkBootstrapper, Scheduler scheduler, HikariDataSource dataSource) {
+        this.gameContainer = gameContainer;
         this.networkBootstrapper = networkBootstrapper;
         this.scheduler = scheduler;
         this.dataSource = dataSource;
@@ -54,7 +48,6 @@ public class MoribundServer {
         connectNetworking();
         startScheduler();
         scheduleGameState();
-        getDataSource();
     }
 
     /**
@@ -90,14 +83,6 @@ public class MoribundServer {
      */
     private void connectNetworking() {
         networkBootstrapper.connect();
-    }
-
-    /**
-     * Sends an object, or a packet, to all the {@link MoribundServer#players} through TCP.
-     * @param outgoingPacket The outgoing packet to send everyone.
-     */
-    public void sendPacketToEveryone(OutgoingPacket outgoingPacket) {
-        players.forEach((playerId, player) -> player.getConnection().sendUDP(outgoingPacket));
     }
 
     /**

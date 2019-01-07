@@ -11,6 +11,7 @@ import lombok.val;
  * not in accordance to the 100 MS game state.
  */
 public final class KeyPressedPacket implements IncomingPacket {
+    private int gameId;
     /**
      * The unique player ID of the player that did pressed a key
      */
@@ -29,6 +30,6 @@ public final class KeyPressedPacket implements IncomingPacket {
     @Override
     public void process(Connection connection) {
         val keyPressedResponsePacket = new KeyPressedResponsePacket(playerId, keyPressed);
-        MoribundServer.getInstance().sendPacketToEveryone(keyPressedResponsePacket);
+        MoribundServer.getInstance().getGameContainer().getGame(gameId).sendPacketToEveryone(keyPressedResponsePacket);
     }
 }

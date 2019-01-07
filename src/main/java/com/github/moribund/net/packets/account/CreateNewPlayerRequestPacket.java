@@ -4,6 +4,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.github.moribund.MoribundServer;
 import com.github.moribund.entity.PlayableCharacter;
 import com.github.moribund.entity.Player;
+import com.github.moribund.game.Game;
 import com.github.moribund.net.packets.IncomingPacket;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
@@ -26,15 +27,13 @@ public final class CreateNewPlayerRequestPacket implements IncomingPacket {
 
     @Override
     public void process(Connection connection) {
+        val game = MoribundServer.getInstance().getGameContainer().getAvailableGame();
         val playerId = connection.getID();
-        val player = createNewPlayer(playerId, connection);
+        val player = createNewPlayer(game.getGameId(), playerId, connection);
 
-        sendNewPlayerPacket(player);
-
-        val playersMap = MoribundServer.getInstance().getPlayers();
-        playersMap.putIfAbsent(playerId, player);
-
-        sendPlayersToNewPlayer(player);
+        sendNewPlayerPacket(game, player);
+        game.addPlayer(playerId, player);
+        sendPlayersToNewPlayer(game, player);
     }
 
 
@@ -44,17 +43,16 @@ public final class CreateNewPlayerRequestPacket implements IncomingPacket {
      * him/her self.
      * @param player The newly made {@link Player}.
      */
-    private void sendPlayersToNewPlayer(PlayableCharacter player) {
+    private void sendPlayersToNewPlayer(Game game, PlayableCharacter player) {
         // note this includes the newly made player
-        val playersMap = MoribundServer.getInstance().getPlayers();
         ObjectList<Pair<Integer, Pair<Float, Float>>> playerTiles = new ObjectArrayList<>();
         ObjectList<Pair<Integer, Float>> playerRotations = new ObjectArrayList<>();
-        playersMap.forEach((playerId, aPlayer) -> {
+        game.forEachPlayer((playerId, aPlayer) -> {
             playerTiles.add(new Pair<>(playerId, new Pair<>(aPlayer.getX(), aPlayer.getY())));
             playerRotations.add(new Pair<>(playerId, aPlayer.getRotation()));
         });
 
-        val loginPacket = new CreateNewPlayerPacket(player.getPlayerId(), playerTiles, playerRotations);
+        val loginPacket = new CreateNewPlayerPacket(player.getGameId(), player.getPlayerId(), playerTiles, playerRotations);
         player.getConnection().sendUDP(loginPacket);
     }
 
@@ -62,10 +60,9 @@ public final class CreateNewPlayerRequestPacket implements IncomingPacket {
      * Sends a {@link DrawNewPlayerPacket} to all the existing {@link Player}s in the game.
      * @param newPlayer The newly made {@link Player}.
      */
-    private void sendNewPlayerPacket(PlayableCharacter newPlayer) {
-        val playersMap = MoribundServer.getInstance().getPlayers();
-        val newPlayerLoginPacket = new DrawNewPlayerPacket(newPlayer.getPlayerId(), newPlayer.getX(), newPlayer.getY(), newPlayer.getRotation());
-        playersMap.forEach((playerId, player) -> player.getConnection().sendUDP(newPlayerLoginPacket));
+    private void sendNewPlayerPacket(Game game, PlayableCharacter newPlayer) {
+        val newPlayerLoginPacket = new DrawNewPlayerPacket(newPlayer.getGameId(), newPlayer.getPlayerId(), newPlayer.getX(), newPlayer.getY(), newPlayer.getRotation());
+        game.forEachPlayer(player -> player.getConnection().sendUDP(newPlayerLoginPacket));
     }
 
     /**
@@ -75,10 +72,10 @@ public final class CreateNewPlayerRequestPacket implements IncomingPacket {
      * @param connection The connection of the newly made player.
      * @return The newly made {@link Player}.
      */
-    private Player createNewPlayer(int playerId, Connection connection) {
+    private Player createNewPlayer(int gameId, int playerId, Connection connection) {
         val x = ThreadLocalRandom.current().nextInt(0, 100);
         val y = ThreadLocalRandom.current().nextInt(0, 100);
-        val player = new Player(playerId, x, y);
+        val player = new Player(gameId, playerId, x, y);
         player.setConnection(connection);
         return player;
     }

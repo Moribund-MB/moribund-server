@@ -11,6 +11,7 @@ import lombok.val;
  * the server where the player currently is for as long as a rotation flag is active.
  */
 public final class RotationPacket implements IncomingPacket {
+    private final int gameId;
     /**
      * The player ID of the player that is finished rotating.
      */
@@ -21,19 +22,21 @@ public final class RotationPacket implements IncomingPacket {
      */
     private final float angle;
 
-    public RotationPacket(int playerId, float angle) {
+    public RotationPacket(int gameId, int playerId, float angle) {
+        this.gameId = gameId;
         this.playerId = playerId;
         this.angle = angle;
     }
 
     RotationPacket() {
+        gameId = -1;
         playerId = -1;
         angle = 0;
     }
 
     @Override
     public void process(Connection connection) {
-        val player = MoribundServer.getInstance().getPlayers().get(playerId);
+        val player = MoribundServer.getInstance().getGameContainer().getGame(gameId).getPlayableCharacter(playerId);
         player.setRotation(angle);
     }
 }

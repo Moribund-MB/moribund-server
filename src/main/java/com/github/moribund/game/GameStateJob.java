@@ -18,28 +18,28 @@ public final class GameStateJob implements Job {
 
     @Override
     public void execute(JobExecutionContext context) {
-        val gameStatePacket = createGameStatePacket();
-        MoribundServer.getInstance().sendPacketToEveryone(gameStatePacket);
+        MoribundServer.getInstance().getGameContainer().forEachGame((gameId, game) -> {
+            val gameStatePacket = createGameStatePacket(game);
+            game.sendPacketToEveryone(gameStatePacket);
+        });
     }
 
     /**
-     * Creates a packet using all the info in the {@link MoribundServer#players} map.
+     * Creates a packet using all the info in the {@link Game#players} map.
+     * @param game The respective {@link Game} that we are creating the packet for.
      * @return The newly created {@link GameStatePacket} packet.
      */
-    private GameStatePacket createGameStatePacket() {
-        val players = MoribundServer.getInstance().getPlayers();
+    private GameStatePacket createGameStatePacket(Game game) {
         final ObjectList<Pair<Integer, Pair<Float, Float>>> playerLocations = new ObjectArrayList<>();
         final ObjectList<Pair<Integer, Float>> playerRotations = new ObjectArrayList<>();
 
-        players.forEach((playerId, player) -> {
+        game.forEachPlayer((playerId, player) -> {
             val playerLocation = new Pair<>(player.getX(), player.getY());
-            playerLocations.add(new Pair<>(playerId, playerLocation));
-        });
-        players.forEach((playerId, player) -> {
             val playerRotation = player.getRotation();
+
+            playerLocations.add(new Pair<>(playerId, playerLocation));
             playerRotations.add(new Pair<>(playerId, playerRotation));
         });
-
         return new GameStatePacket(playerLocations, playerRotations);
     }
 }

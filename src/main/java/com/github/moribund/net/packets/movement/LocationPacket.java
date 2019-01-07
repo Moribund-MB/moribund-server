@@ -11,6 +11,7 @@ import lombok.val;
  * the server where the player currently is for as long as a rotation flag is active.
  */
 public final class LocationPacket implements IncomingPacket {
+    private final int gameId;
     /**
      * The player ID of the player that is at the given tile.
      */
@@ -26,13 +27,15 @@ public final class LocationPacket implements IncomingPacket {
      */
     private final float y;
 
-    public LocationPacket(int playerId, float x, float y) {
+    public LocationPacket(int gameId, int playerId, float x, float y) {
+        this.gameId = gameId;
         this.playerId = playerId;
         this.x = x;
         this.y = y;
     }
 
     LocationPacket() {
+        gameId = -1;
         playerId = -1;
         x = 0;
         y = 0;
@@ -40,7 +43,7 @@ public final class LocationPacket implements IncomingPacket {
 
     @Override
     public void process(Connection connection) {
-        val player = MoribundServer.getInstance().getPlayers().get(playerId);
+        val player = MoribundServer.getInstance().getGameContainer().getGame(gameId).getPlayableCharacter(playerId);
         player.setX(x);
         player.setY(y);
     }

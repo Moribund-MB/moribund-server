@@ -9,6 +9,7 @@ import lombok.Value;
  */
 @Value
 public class DrawNewPlayerPacket implements OutgoingPacket {
+    private int gameId;
     /**
      * The {@link com.github.moribund.entity.Player}'s unique ID.
      */
