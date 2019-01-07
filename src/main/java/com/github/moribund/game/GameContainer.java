@@ -20,6 +20,15 @@ public class GameContainer {
         return games.get(gameId);
     }
 
+    public Game getGameForPlayerId(int playerId) {
+        for (Game game : games.values()) {
+            if (game.containsPlayer(playerId)) {
+                return game;
+            }
+        }
+        return null;
+    }
+
     private Game createGame() {
         val game = new Game(gameId, new Int2ObjectOpenHashMap<>());
         games.put(gameId, game);

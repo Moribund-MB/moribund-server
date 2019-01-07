@@ -54,4 +54,8 @@ public class Game {
     public int getPlayerAmount() {
         return players.size();
     }
+
+    public boolean containsPlayer(int playerId) {
+        return players.containsKey(playerId);
+    }
 }
