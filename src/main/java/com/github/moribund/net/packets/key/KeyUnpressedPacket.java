@@ -30,6 +30,6 @@ public final class KeyUnpressedPacket implements IncomingPacket {
     @Override
     public void process(Connection connection) {
         val keyUnpressedResponsePacket = new KeyUnpressedResponsePacket(playerId, keyUnpressed);
-        MoribundServer.getInstance().getGameContainer().getGame(gameId).sendPacketToEveryone(keyUnpressedResponsePacket);
+        MoribundServer.getInstance().getGameContainer().getGame(gameId).sendPacketToEveryoneUsingTCP(keyUnpressedResponsePacket);
     }
 }

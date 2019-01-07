@@ -20,7 +20,7 @@ public final class GameStateJob implements Job {
     public void execute(JobExecutionContext context) {
         MoribundServer.getInstance().getGameContainer().forEachGame((gameId, game) -> {
             val gameStatePacket = createGameStatePacket(game);
-            game.sendPacketToEveryone(gameStatePacket);
+            game.sendPacketToEveryoneUsingUDP(gameStatePacket);
         });
     }
 

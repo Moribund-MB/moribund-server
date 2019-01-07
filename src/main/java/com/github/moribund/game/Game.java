@@ -20,11 +20,15 @@ public class Game {
     }
 
     /**
-     * Sends an object, or a packet, to all the {@link Game#players} through TCP.
+     * Sends an object, or a packet, to all the {@link Game#players}.
      * @param outgoingPacket The outgoing packet to send everyone.
      */
-    public void sendPacketToEveryone(OutgoingPacket outgoingPacket) {
+    public void sendPacketToEveryoneUsingUDP(OutgoingPacket outgoingPacket) {
         players.forEach((playerId, player) -> player.getConnection().sendUDP(outgoingPacket));
+    }
+
+    public void sendPacketToEveryoneUsingTCP(OutgoingPacket outgoingPacket) {
+        players.forEach((playerId, player) -> player.getConnection().sendTCP(outgoingPacket));
     }
 
     public void addPlayer(int playerId, Player player) {

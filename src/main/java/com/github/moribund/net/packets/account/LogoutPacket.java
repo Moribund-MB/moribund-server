@@ -22,6 +22,6 @@ public class LogoutPacket implements IncomingPacket {
     public void process(Connection connection) {
         val game = MoribundServer.getInstance().getGameContainer().getGame(gameId);
         game.removePlayer(playerId);
-        game.sendPacketToEveryone(new LogoutResponsePacket(playerId));
+        game.sendPacketToEveryoneUsingTCP(new LogoutResponsePacket(playerId));
     }
 }

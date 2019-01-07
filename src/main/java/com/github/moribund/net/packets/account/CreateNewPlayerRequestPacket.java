@@ -53,7 +53,7 @@ public final class CreateNewPlayerRequestPacket implements IncomingPacket {
         });
 
         val loginPacket = new CreateNewPlayerPacket(player.getGameId(), player.getPlayerId(), playerTiles, playerRotations);
-        player.getConnection().sendUDP(loginPacket);
+        player.getConnection().sendTCP(loginPacket);
     }
 
     /**
@@ -62,7 +62,7 @@ public final class CreateNewPlayerRequestPacket implements IncomingPacket {
      */
     private void sendNewPlayerPacket(Game game, PlayableCharacter newPlayer) {
         val newPlayerLoginPacket = new DrawNewPlayerPacket(newPlayer.getGameId(), newPlayer.getPlayerId(), newPlayer.getX(), newPlayer.getY(), newPlayer.getRotation());
-        game.forEachPlayer(player -> player.getConnection().sendUDP(newPlayerLoginPacket));
+        game.forEachPlayer(player -> player.getConnection().sendTCP(newPlayerLoginPacket));
     }
 
     /**
