@@ -1,6 +1,8 @@
 package com.github.moribund.game;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectList;
 import lombok.val;
 
 import java.util.function.BiConsumer;
@@ -43,6 +45,18 @@ public class GameContainer {
             }
         }
         return createGame();
+    }
+
+    public void removeIdleGames() {
+        ObjectList<Integer> idleGameIds = new ObjectArrayList<>();
+        games.forEach((gameId, game) -> {
+            if (game.getPlayerAmount() == 0) {
+                idleGameIds.add(gameId);
+            }
+        });
+        for (int idleGameId : idleGameIds) {
+            games.remove(idleGameId);
+        }
     }
 
     void forEachGame(BiConsumer<Integer, Game> gameBiConsumer) {

@@ -19,10 +19,12 @@ public class ServerListener extends Listener {
     @Override
     public void disconnected(Connection connection) {
         val playerId = connection.getID();
-        val game = MoribundServer.getInstance().getGameContainer().getGameForPlayerId(playerId);
+        val gameContainer = MoribundServer.getInstance().getGameContainer();
+        val game = gameContainer.getGameForPlayerId(playerId);
 
         game.removePlayer(playerId);
         game.sendPacketToEveryoneUsingTCP(new LogoutPacket(game.getGameId(), playerId));
+        gameContainer.removeIdleGames();
     }
 
     @Override
