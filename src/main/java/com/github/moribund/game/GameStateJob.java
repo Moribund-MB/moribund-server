@@ -1,10 +1,11 @@
 package com.github.moribund.game;
 
 import com.github.moribund.MoribundServer;
+import com.github.moribund.net.packets.data.PlayerLocationData;
+import com.github.moribund.net.packets.data.PlayerRotationData;
 import com.github.moribund.net.packets.game.GameStatePacket;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
-import javafx.util.Pair;
 import lombok.val;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -30,15 +31,12 @@ public final class GameStateJob implements Job {
      * @return The newly created {@link GameStatePacket} packet.
      */
     private GameStatePacket createGameStatePacket(Game game) {
-        final ObjectList<Pair<Integer, Pair<Float, Float>>> playerLocations = new ObjectArrayList<>();
-        final ObjectList<Pair<Integer, Float>> playerRotations = new ObjectArrayList<>();
+        final ObjectList<PlayerLocationData> playerLocations = new ObjectArrayList<>();
+        final ObjectList<PlayerRotationData> playerRotations = new ObjectArrayList<>();
 
         game.forEachPlayer((playerId, player) -> {
-            val playerLocation = new Pair<>(player.getX(), player.getY());
-            val playerRotation = player.getRotation();
-
-            playerLocations.add(new Pair<>(playerId, playerLocation));
-            playerRotations.add(new Pair<>(playerId, playerRotation));
+            playerLocations.add(new PlayerLocationData(playerId, player.getX(), player.getY()));
+            playerRotations.add(new PlayerRotationData(playerId, player.getRotation()));
         });
         return new GameStatePacket(playerLocations, playerRotations);
     }
