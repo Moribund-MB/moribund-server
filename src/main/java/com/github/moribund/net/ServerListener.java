@@ -22,8 +22,11 @@ public class ServerListener extends Listener {
         val gameContainer = MoribundServer.getInstance().getGameContainer();
         val game = gameContainer.getGameForPlayerId(playerId);
 
-        game.removePlayer(playerId);
-        game.sendPacketToEveryoneUsingTCP(new LogoutPacket(game.getGameId(), playerId));
+        if (game != null) {
+            game.removePlayer(playerId);
+            game.sendPacketToEveryoneUsingTCP(new LogoutPacket(game.getGameId(), playerId));
+        }
+
         gameContainer.removeIdleGames();
     }
 
