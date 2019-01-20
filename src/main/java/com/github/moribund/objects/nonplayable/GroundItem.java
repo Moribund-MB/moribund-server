@@ -13,4 +13,8 @@ public class GroundItem implements Locatable {
     public float getRotation() {
         return 0;
     }
+
+    public boolean matches(int itemId, float x, float y) {
+        return itemType.getId() == itemId && getX() == x && getY() == y;
+    }
 }

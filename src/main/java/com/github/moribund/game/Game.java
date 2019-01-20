@@ -80,4 +80,17 @@ public class Game {
             groundItems.add(groundItem);
         }
     }
+
+    public GroundItem getGroundItem(int id, float x, float y) {
+        for (GroundItem groundItem : groundItems) {
+            if (groundItem.matches(id, x, y)) {
+                return groundItem;
+            }
+        }
+        return null;
+    }
+
+    public void removeGroundItem(GroundItem groundItem) {
+        groundItems.remove(groundItem);
+    }
 }
