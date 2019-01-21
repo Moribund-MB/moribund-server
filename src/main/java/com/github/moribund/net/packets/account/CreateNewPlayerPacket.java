@@ -2,8 +2,7 @@ package com.github.moribund.net.packets.account;
 
 import com.github.moribund.net.packets.OutgoingPacket;
 import com.github.moribund.net.packets.data.GroundItemData;
-import com.github.moribund.net.packets.data.PlayerLocationData;
-import com.github.moribund.net.packets.data.PlayerRotationData;
+import com.github.moribund.net.packets.data.PlayerData;
 import com.github.moribund.objects.playable.Player;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import lombok.Value;
@@ -25,13 +24,7 @@ public class CreateNewPlayerPacket implements OutgoingPacket {
      * The locations of all the {@link Player}s in the
      * game currently so that they may be rendered to this player logging in.
      */
-    private ObjectList<PlayerLocationData> playerLocations;
-
-    /**
-     * The rotations of all the {@link Player}s in the
-     * game currently so that they may be rendered to this player logging in.
-     */
-    private ObjectList<PlayerRotationData> playerRotations;
+    private ObjectList<PlayerData> playerData;
 
     private ObjectList<GroundItemData> groundItems;
 }

@@ -30,4 +30,5 @@ public class DrawNewPlayerPacket implements OutgoingPacket {
      * The angle of rotation of the new player.
      */
     private float rotation;
+    private int hitpoints;
 }

@@ -7,9 +7,9 @@ import com.github.moribund.net.packets.account.CreateNewPlayerPacket;
 import com.github.moribund.net.packets.account.CreateNewPlayerRequestPacket;
 import com.github.moribund.net.packets.account.DrawNewPlayerPacket;
 import com.github.moribund.net.packets.account.LogoutPacket;
+import com.github.moribund.net.packets.combat.ProjectileCollisionPacket;
 import com.github.moribund.net.packets.data.GroundItemData;
-import com.github.moribund.net.packets.data.PlayerLocationData;
-import com.github.moribund.net.packets.data.PlayerRotationData;
+import com.github.moribund.net.packets.data.PlayerData;
 import com.github.moribund.net.packets.game.GameStatePacket;
 import com.github.moribund.net.packets.items.PickupItemPacket;
 import com.github.moribund.net.packets.key.KeyPressedPacket;
@@ -82,8 +82,8 @@ public class NetworkBootstrapper {
         kryo.register(LoginResponsePacket.class);
         kryo.register(GroundItemType.class, new JavaSerializer());
         kryo.register(GroundItemData.class);
-        kryo.register(PlayerRotationData.class);
-        kryo.register(PlayerLocationData.class);
+        kryo.register(PlayerData.class);
         kryo.register(PickupItemPacket.class);
+        kryo.register(ProjectileCollisionPacket.class);
     }
 }

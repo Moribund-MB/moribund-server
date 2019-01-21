@@ -1,9 +1,7 @@
 package com.github.moribund.net.packets.game;
 
 import com.github.moribund.net.packets.OutgoingPacket;
-import com.github.moribund.net.packets.data.PlayerLocationData;
-import com.github.moribund.net.packets.data.PlayerRotationData;
-import com.github.moribund.objects.playable.Player;
+import com.github.moribund.net.packets.data.PlayerData;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import lombok.Value;
 
@@ -17,13 +15,5 @@ import lombok.Value;
  */
 @Value
 public class GameStatePacket implements OutgoingPacket {
-    /**
-     * The locations of all {@link Player}s in the game at the moment.
-     */
-    private ObjectList<PlayerLocationData> playerLocations;
-
-    /**
-     * The rotation angle of all {@link Player}s in the game at the moment.
-     */
-    private ObjectList<PlayerRotationData> playerRotations;
+    private ObjectList<PlayerData> playerData;
 }

@@ -1,8 +1,7 @@
 package com.github.moribund.game;
 
 import com.github.moribund.MoribundServer;
-import com.github.moribund.net.packets.data.PlayerLocationData;
-import com.github.moribund.net.packets.data.PlayerRotationData;
+import com.github.moribund.net.packets.data.PlayerData;
 import com.github.moribund.net.packets.game.GameStatePacket;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
@@ -31,13 +30,10 @@ public final class GameStateJob implements Job {
      * @return The newly created {@link GameStatePacket} packet.
      */
     private GameStatePacket createGameStatePacket(Game game) {
-        final ObjectList<PlayerLocationData> playerLocations = new ObjectArrayList<>();
-        final ObjectList<PlayerRotationData> playerRotations = new ObjectArrayList<>();
+        final ObjectList<PlayerData> playerData = new ObjectArrayList<>();
 
-        game.forEachPlayer((playerId, player) -> {
-            playerLocations.add(new PlayerLocationData(playerId, player.getX(), player.getY()));
-            playerRotations.add(new PlayerRotationData(playerId, player.getRotation()));
-        });
-        return new GameStatePacket(playerLocations, playerRotations);
+        game.forEachPlayer((playerId, player) ->
+                playerData.add(new PlayerData(playerId, player.getX(), player.getY(), player.getRotation(), player.getHitpoints())));
+        return new GameStatePacket(playerData);
     }
 }

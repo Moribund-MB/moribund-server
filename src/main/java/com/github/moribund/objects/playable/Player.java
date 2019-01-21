@@ -1,6 +1,7 @@
 package com.github.moribund.objects.playable;
 
 import com.esotericsoftware.kryonet.Connection;
+import com.github.moribund.objects.nonplayable.ProjectileType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,6 +25,8 @@ public final class Player implements PlayableCharacter {
     private float y;
     @Getter @Setter
     private float rotation;
+    @Getter
+    private int hitpoints = 100;
     /**
      * The connection of the server between the client.
      */
@@ -40,5 +43,13 @@ public final class Player implements PlayableCharacter {
         this.playerId = playerId;
         x = startingX;
         y = startingY;
+    }
+
+    public void collide(ProjectileType projectileType) {
+        switch (projectileType) {
+            case ARROW:
+                hitpoints -= 10;
+                break;
+        }
     }
 }

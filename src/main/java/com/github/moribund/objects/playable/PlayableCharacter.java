@@ -2,6 +2,7 @@ package com.github.moribund.objects.playable;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.github.moribund.objects.attributes.Movable;
+import com.github.moribund.objects.nonplayable.ProjectileType;
 
 /**
  * The {@code PlayableCharacter} interface is a template
@@ -22,4 +23,8 @@ public interface PlayableCharacter extends Movable {
      * @return The connection of the server between the client.
      */
     Connection getConnection();
+
+    void collide(ProjectileType projectileType);
+
+    int getHitpoints();
 }
