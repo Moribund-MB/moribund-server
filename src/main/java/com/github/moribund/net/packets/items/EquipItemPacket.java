@@ -4,6 +4,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.github.moribund.MoribundServer;
 import com.github.moribund.net.packets.IncomingPacket;
 import com.github.moribund.net.packets.account.UpdateAppearancePacket;
+import com.github.moribund.objects.nonplayable.EquippedItemType;
 import lombok.val;
 
 public class EquipItemPacket implements IncomingPacket {
@@ -19,6 +20,9 @@ public class EquipItemPacket implements IncomingPacket {
         val player = game.getPlayableCharacter(playerId);
         val item = player.getInventory().getItem(inventorySlot);
         if (item == null) {
+            return;
+        }
+        if (!EquippedItemType.isEquippableItem(item.getId())) {
             return;
         }
         player.getInventory().removeItem(item);
