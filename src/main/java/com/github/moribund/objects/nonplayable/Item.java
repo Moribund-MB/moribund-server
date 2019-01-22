@@ -11,4 +11,9 @@ public class Item {
         this.id = id;
         itemType = ItemType.getItemType(id);
     }
+
+    public Item(ItemType itemType) {
+        id = itemType.getId();
+        this.itemType = itemType;
+    }
 }

@@ -31,10 +31,13 @@ public abstract class ItemContainer {
 
     public void removeItem(Item item) {
         items.remove(item);
-        itemIds.remove(item.getId());
+        itemIds.remove(new Integer(item.getId()));
     }
 
     public Item getItem(int slot) {
+        if (slot >= items.size()) {
+            return null;
+        }
         return items.get(slot);
     }
 
