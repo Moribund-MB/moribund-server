@@ -3,7 +3,7 @@ package com.github.moribund.game;
 import com.github.moribund.GraphicalConstants;
 import com.github.moribund.net.packets.OutgoingPacket;
 import com.github.moribund.objects.nonplayable.GroundItem;
-import com.github.moribund.objects.nonplayable.GroundItemType;
+import com.github.moribund.objects.nonplayable.ItemType;
 import com.github.moribund.objects.playable.PlayableCharacter;
 import com.github.moribund.objects.playable.Player;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -73,7 +73,7 @@ public class Game {
     void setup() {
         val itemsOnGround = ThreadLocalRandom.current().nextInt(5, 10);
         for (int i = 0; i < itemsOnGround; i++) {
-            val itemType = GroundItemType.random();
+            val itemType = ItemType.random();
             val x = (float) ThreadLocalRandom.current().nextDouble(GraphicalConstants.MINIMUM_X, GraphicalConstants.MAXIMUM_X);
             val y = (float) ThreadLocalRandom.current().nextDouble(GraphicalConstants.MINIMUM_Y, GraphicalConstants.MAXIMUM_Y);
             val groundItem = new GroundItem(itemType, x, y);

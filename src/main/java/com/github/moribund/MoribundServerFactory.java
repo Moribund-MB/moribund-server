@@ -23,8 +23,8 @@ class MoribundServerFactory {
         val playersMap = createGameContainer();
         val networkBootstrapper = createNetworkBootstrapper();
         val scheduler = createScheduler();
-        val dataSource = createHikariDataSource();
-        return new MoribundServer(playersMap, networkBootstrapper, scheduler, dataSource);
+//        val dataSource = createHikariDataSource();
+        return new MoribundServer(playersMap, networkBootstrapper, scheduler, null);
     }
 
     private HikariDataSource createHikariDataSource() {

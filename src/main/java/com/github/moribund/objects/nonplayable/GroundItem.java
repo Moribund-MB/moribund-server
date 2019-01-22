@@ -5,7 +5,7 @@ import lombok.Value;
 
 @Value
 public class GroundItem implements Locatable {
-    private final GroundItemType itemType;
+    private final ItemType itemType;
     private final float x;
     private final float y;
 

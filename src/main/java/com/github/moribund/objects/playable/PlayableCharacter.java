@@ -3,6 +3,7 @@ package com.github.moribund.objects.playable;
 import com.esotericsoftware.kryonet.Connection;
 import com.github.moribund.objects.attributes.Movable;
 import com.github.moribund.objects.nonplayable.ProjectileType;
+import com.github.moribund.objects.playable.containers.ItemContainer;
 
 /**
  * The {@code PlayableCharacter} interface is a template
@@ -27,4 +28,6 @@ public interface PlayableCharacter extends Movable {
     void collide(ProjectileType projectileType);
 
     int getHitpoints();
+
+    ItemContainer getInventory();
 }

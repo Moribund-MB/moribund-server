@@ -1,5 +1,6 @@
 package com.github.moribund.net.packets.data;
 
+import it.unimi.dsi.fastutil.objects.ObjectList;
 import lombok.Value;
 
 import java.io.Serializable;
@@ -13,4 +14,5 @@ public class PlayerData implements Serializable {
     private float y;
     private float rotation;
     private int hitpoints;
+    private ObjectList<Integer> inventoryItems;
 }

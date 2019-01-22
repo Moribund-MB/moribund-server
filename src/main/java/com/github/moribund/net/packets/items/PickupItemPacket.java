@@ -4,6 +4,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.github.moribund.MoribundServer;
 import com.github.moribund.net.packets.IncomingPacket;
 import com.github.moribund.net.packets.OutgoingPacket;
+import com.github.moribund.objects.nonplayable.Item;
 import lombok.val;
 
 public class PickupItemPacket implements OutgoingPacket, IncomingPacket {
@@ -32,8 +33,11 @@ public class PickupItemPacket implements OutgoingPacket, IncomingPacket {
     @Override
     public void process(Connection connection) {
         val game = MoribundServer.getInstance().getGameContainer().getGame(gameId);
+        val player = game.getPlayableCharacter(playerId);
         val groundItem = game.getGroundItem(itemId, x, y);
-        if (groundItem != null) {
+        if (groundItem != null && player.getInventory().hasSpace()) {
+            val item = new Item(groundItem.getItemType().getId());
+            player.getInventory().addItem(item);
             game.removeGroundItem(groundItem);
             connection.sendTCP(this);
         }
