@@ -3,6 +3,7 @@ package com.github.moribund.net.packets.items;
 import com.esotericsoftware.kryonet.Connection;
 import com.github.moribund.MoribundServer;
 import com.github.moribund.net.packets.IncomingPacket;
+import com.github.moribund.net.packets.account.UpdateAppearancePacket;
 import lombok.val;
 
 public class EquipItemPacket implements IncomingPacket {
@@ -22,5 +23,6 @@ public class EquipItemPacket implements IncomingPacket {
         }
         player.getInventory().removeItem(item);
         player.getEquipment().addItem(item);
+        MoribundServer.getInstance().getGameContainer().getGame(gameId).queuePacket(new UpdateAppearancePacket(playerId));
     }
 }

@@ -1,6 +1,7 @@
 package com.github.moribund.game;
 
 import com.github.moribund.MoribundServer;
+import com.github.moribund.net.packets.OutgoingPacket;
 import com.github.moribund.net.packets.data.PlayerData;
 import com.github.moribund.net.packets.game.GameStatePacket;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -21,6 +22,10 @@ public final class GameStateJob implements Job {
         MoribundServer.getInstance().getGameContainer().forEachGame((gameId, game) -> {
             val gameStatePacket = createGameStatePacket(game);
             game.sendPacketToEveryoneUsingUDP(gameStatePacket);
+            for (OutgoingPacket outgoingPacket : game.getOutgoingPacketsQueue()) {
+                game.sendPacketToEveryoneUsingUDP(outgoingPacket);
+            }
+            game.emptyQueue();
         });
     }
 

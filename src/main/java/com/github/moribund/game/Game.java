@@ -10,9 +10,12 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.val;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -21,6 +24,8 @@ public class Game {
     @Getter
     private final int gameId;
     private final Int2ObjectMap<PlayableCharacter> players;
+    @Getter(value = AccessLevel.PACKAGE)
+    private final Queue<OutgoingPacket> outgoingPacketsQueue;
     @Getter
     private final ObjectSet<GroundItem> groundItems;
 
@@ -28,6 +33,7 @@ public class Game {
         this.gameId = gameId;
         players = new Int2ObjectOpenHashMap<>();
         groundItems = new ObjectArraySet<>();
+        outgoingPacketsQueue = new LinkedList<>();
     }
 
     /**
@@ -40,6 +46,14 @@ public class Game {
 
     public void sendPacketToEveryoneUsingTCP(OutgoingPacket outgoingPacket) {
         players.forEach((playerId, player) -> player.getConnection().sendTCP(outgoingPacket));
+    }
+
+    public void queuePacket(OutgoingPacket outgoingPacket) {
+        outgoingPacketsQueue.add(outgoingPacket);
+    }
+
+    public void emptyQueue() {
+        outgoingPacketsQueue.clear();
     }
 
     public void addPlayer(int playerId, Player player) {
@@ -71,7 +85,7 @@ public class Game {
     }
 
     void setup() {
-        val itemsOnGround = ThreadLocalRandom.current().nextInt(5, 10);
+        val itemsOnGround = ThreadLocalRandom.current().nextInt(10, 15);
         for (int i = 0; i < itemsOnGround; i++) {
             val itemType = ItemType.random();
             val x = (float) ThreadLocalRandom.current().nextDouble(GraphicalConstants.MINIMUM_X, GraphicalConstants.MAXIMUM_X);
