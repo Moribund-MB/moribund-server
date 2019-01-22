@@ -2,6 +2,7 @@ package com.github.moribund.objects.playable;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.github.moribund.objects.nonplayable.ProjectileType;
+import com.github.moribund.objects.playable.containers.Equipment;
 import com.github.moribund.objects.playable.containers.Inventory;
 import com.github.moribund.objects.playable.containers.ItemContainer;
 import lombok.Getter;
@@ -23,6 +24,8 @@ public final class Player implements PlayableCharacter {
     private final int playerId;
     @Getter
     private final ItemContainer inventory;
+    @Getter
+    private final ItemContainer equipment;
     @Getter @Setter
     private float x;
     @Getter @Setter
@@ -48,6 +51,7 @@ public final class Player implements PlayableCharacter {
         x = startingX;
         y = startingY;
         inventory = new Inventory();
+        equipment = new Equipment();
     }
 
     public void collide(ProjectileType projectileType) {

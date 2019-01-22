@@ -30,4 +30,6 @@ public interface PlayableCharacter extends Movable {
     int getHitpoints();
 
     ItemContainer getInventory();
+
+    ItemContainer getEquipment();
 }

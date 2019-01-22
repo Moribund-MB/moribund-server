@@ -51,7 +51,8 @@ public final class CreateNewPlayerRequestPacket implements IncomingPacket {
         ObjectList<PlayerData> playerData = new ObjectArrayList<>();
         ObjectList<GroundItemData> groundItems = new ObjectArrayList<>();
         game.forEachPlayer((playerId, aPlayer) ->
-                playerData.add(new PlayerData(playerId, aPlayer.getX(), aPlayer.getY(), aPlayer.getRotation(), aPlayer.getHitpoints(), aPlayer.getInventory().getItemIds())));
+                playerData.add(new PlayerData(playerId, aPlayer.getX(), aPlayer.getY(), aPlayer.getRotation(),
+                        aPlayer.getHitpoints(), aPlayer.getInventory().getItemIds(), aPlayer.getEquipment().getItemIds())));
         game.getGroundItems().forEach(item -> groundItems.add(new GroundItemData(item.getItemType().getId(), item.getX(), item.getY())));
 
         val loginPacket = new CreateNewPlayerPacket(player.getGameId(), player.getPlayerId(), playerData, groundItems);

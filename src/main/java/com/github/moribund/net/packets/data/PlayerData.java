@@ -15,4 +15,5 @@ public class PlayerData implements Serializable {
     private float rotation;
     private int hitpoints;
     private ObjectList<Integer> inventoryItems;
+    private ObjectList<Integer> equipmentItems;
 }
