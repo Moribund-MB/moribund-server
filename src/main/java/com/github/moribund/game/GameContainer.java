@@ -51,6 +51,7 @@ public class GameContainer {
         ObjectList<Integer> idleGameIds = new ObjectArrayList<>();
         games.forEach((gameId, game) -> {
             if (game.getPlayerAmount() == 0) {
+                game.endGame();
                 idleGameIds.add(gameId);
             }
         });

@@ -48,12 +48,7 @@ public class Game {
                     .withIdentity("gameTimerJob" + gameId)
                     .usingJobData("gameId", gameId)
                     .build();
-
-            val triggerIdentity = "gameTimer";
-            var trigger = MoribundServer.getInstance().getScheduler().getTrigger(new TriggerKey(triggerIdentity));
-            if (trigger == null) {
-                trigger = TriggerBuilder.newTrigger().withIdentity(triggerIdentity).withSchedule(scheduledTime).build();
-            }
+            var trigger = TriggerBuilder.newTrigger().withIdentity("gameTimer" + gameId).withSchedule(scheduledTime).build();
 
             MoribundServer.getInstance().getScheduler().start();
             MoribundServer.getInstance().getScheduler().scheduleJob(gameTimerJobDetail, trigger);
@@ -132,5 +127,13 @@ public class Game {
 
     public void removeGroundItem(GroundItem groundItem) {
         groundItems.remove(groundItem);
+    }
+
+    void endGame() {
+        try {
+            MoribundServer.getInstance().getScheduler().deleteJob(new JobKey("gameTimer" + gameId));
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
     }
 }
