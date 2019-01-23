@@ -17,6 +17,7 @@ public class MoribundServer {
      */
     private static MoribundServer instance;
 
+    @Getter
     private final Scheduler scheduler;
     @Getter
     private final HikariDataSource dataSource;

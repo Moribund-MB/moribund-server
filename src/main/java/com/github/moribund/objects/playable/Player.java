@@ -7,6 +7,7 @@ import com.github.moribund.objects.nonplayable.ProjectileType;
 import com.github.moribund.objects.playable.containers.Equipment;
 import com.github.moribund.objects.playable.containers.Inventory;
 import com.github.moribund.objects.playable.containers.ItemContainer;
+import com.github.moribund.utils.ArtificialTime;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.val;
@@ -37,6 +38,8 @@ public final class Player implements PlayableCharacter {
     private float rotation;
     @Getter
     private int hitpoints = 100;
+    @Getter
+    private ArtificialTime timeLeft;
     /**
      * The connection of the server between the client.
      */
@@ -48,11 +51,12 @@ public final class Player implements PlayableCharacter {
      * tile the {@code Player} starts at.
      * @param playerId The unique player ID.
      */
-    public Player(int gameId, int playerId, float startingX, float startingY) {
+    public Player(int gameId, int playerId, float startingX, float startingY, ArtificialTime initialTimeLeft) {
         this.gameId = gameId;
         this.playerId = playerId;
         x = startingX;
         y = startingY;
+        timeLeft = initialTimeLeft;
         inventory = new Inventory();
         equipment = new Equipment();
     }

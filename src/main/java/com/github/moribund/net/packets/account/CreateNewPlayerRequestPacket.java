@@ -8,6 +8,7 @@ import com.github.moribund.net.packets.data.GroundItemData;
 import com.github.moribund.net.packets.data.PlayerData;
 import com.github.moribund.objects.playable.PlayableCharacter;
 import com.github.moribund.objects.playable.Player;
+import com.github.moribund.utils.ArtificialTime;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import lombok.val;
@@ -52,8 +53,10 @@ public final class CreateNewPlayerRequestPacket implements IncomingPacket {
         ObjectList<GroundItemData> groundItems = new ObjectArrayList<>();
         game.forEachPlayer((playerId, aPlayer) ->
                 playerData.add(new PlayerData(playerId, aPlayer.getX(), aPlayer.getY(), aPlayer.getRotation(),
-                        aPlayer.getHitpoints(), aPlayer.getInventory().getItemIds(), aPlayer.getEquipment().getItemIds())));
-        game.getGroundItems().forEach(item -> groundItems.add(new GroundItemData(item.getItemType().getId(), item.getX(), item.getY())));
+                        aPlayer.getHitpoints(), aPlayer.getInventory().getItemIds(),
+                        aPlayer.getEquipment().getItemIds())));
+        game.getGroundItems().forEach(item ->
+                groundItems.add(new GroundItemData(item.getItemType().getId(), item.getX(), item.getY())));
 
         val loginPacket = new CreateNewPlayerPacket(player.getGameId(), player.getPlayerId(), playerData, groundItems);
         player.getConnection().sendTCP(loginPacket);
@@ -80,8 +83,12 @@ public final class CreateNewPlayerRequestPacket implements IncomingPacket {
     private Player createNewPlayer(int gameId, int playerId, Connection connection) {
         val x = ThreadLocalRandom.current().nextInt(0, 100);
         val y = ThreadLocalRandom.current().nextInt(0, 100);
-        val player = new Player(gameId, playerId, x, y);
+        val player = new Player(gameId, playerId, x, y, generateTimeLeft());
         player.setConnection(connection);
         return player;
+    }
+
+    private ArtificialTime generateTimeLeft() {
+        return new ArtificialTime(70);
     }
 }

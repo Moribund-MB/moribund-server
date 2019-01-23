@@ -4,6 +4,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.github.moribund.objects.attributes.Movable;
 import com.github.moribund.objects.nonplayable.ProjectileType;
 import com.github.moribund.objects.playable.containers.ItemContainer;
+import com.github.moribund.utils.ArtificialTime;
 
 /**
  * The {@code PlayableCharacter} interface is a template
@@ -36,4 +37,6 @@ public interface PlayableCharacter extends Movable {
     boolean canAttack();
 
     void attack();
+
+    ArtificialTime getTimeLeft();
 }

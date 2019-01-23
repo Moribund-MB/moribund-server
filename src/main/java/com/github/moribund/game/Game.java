@@ -1,6 +1,7 @@
 package com.github.moribund.game;
 
 import com.github.moribund.GraphicalConstants;
+import com.github.moribund.MoribundServer;
 import com.github.moribund.net.packets.OutgoingPacket;
 import com.github.moribund.objects.nonplayable.GroundItem;
 import com.github.moribund.objects.nonplayable.ItemType;
@@ -13,6 +14,7 @@ import it.unimi.dsi.fastutil.objects.ObjectSet;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.val;
+import org.quartz.*;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -34,6 +36,25 @@ public class Game {
         players = new Int2ObjectOpenHashMap<>();
         groundItems = new ObjectArraySet<>();
         outgoingPacketsQueue = new LinkedList<>();
+        scheduleGameTimer();
+    }
+
+    private void scheduleGameTimer() {
+        try {
+            val timePerTick = 1;
+            val scheduledTime = SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(timePerTick).repeatForever();
+            val gameTimerJobDetail = JobBuilder.newJob(GameTimerJob.class).withIdentity("gameTimerJob" + gameId).build();
+            val trigger = TriggerBuilder.newTrigger().withIdentity("gameTimer" + gameId).withSchedule(scheduledTime).build();
+            // todo make better trigger to follow quartz practices
+
+            gameTimerJobDetail.getJobDataMap().put("gameId", gameId);
+            MoribundServer.getInstance().getScheduler().start();
+
+            // TODO NEED TO FIND A BETTER WAY THAN THIS MESS
+            MoribundServer.getInstance().getScheduler().scheduleJob(gameTimerJobDetail, trigger);
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
