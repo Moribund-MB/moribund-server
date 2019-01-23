@@ -9,9 +9,9 @@ import org.quartz.JobExecutionContext;
 public class GameTimerJob implements Job {
     @Override
     public void execute(JobExecutionContext context) {
-        val gameId = (int) context.getJobDetail().getJobDataMap().get("gameId");
+        val gameId = context.getJobDetail().getJobDataMap().getInt("gameId");
         val game = MoribundServer.getInstance().getGameContainer().getGame(gameId);
-
+        
         game.forEachPlayer(player -> {
             player.getTimeLeft().setTime(player.getTimeLeft().getTime() - 1);
             val timeLeftRefreshPacket = new TimeLeftRefreshPacket(player.getTimeLeft().toString());

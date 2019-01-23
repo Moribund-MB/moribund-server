@@ -14,6 +14,7 @@ import it.unimi.dsi.fastutil.objects.ObjectSet;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.val;
+import lombok.var;
 import org.quartz.*;
 
 import java.util.LinkedList;
@@ -43,14 +44,18 @@ public class Game {
         try {
             val timePerTick = 1;
             val scheduledTime = SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(timePerTick).repeatForever();
-            val gameTimerJobDetail = JobBuilder.newJob(GameTimerJob.class).withIdentity("gameTimerJob" + gameId).build();
-            val trigger = TriggerBuilder.newTrigger().withIdentity("gameTimer" + gameId).withSchedule(scheduledTime).build();
-            // todo make better trigger to follow quartz practices
+            val gameTimerJobDetail = JobBuilder.newJob(GameTimerJob.class)
+                    .withIdentity("gameTimerJob" + gameId)
+                    .usingJobData("gameId", gameId)
+                    .build();
 
-            gameTimerJobDetail.getJobDataMap().put("gameId", gameId);
+            val triggerIdentity = "gameTimer";
+            var trigger = MoribundServer.getInstance().getScheduler().getTrigger(new TriggerKey(triggerIdentity));
+            if (trigger == null) {
+                trigger = TriggerBuilder.newTrigger().withIdentity(triggerIdentity).withSchedule(scheduledTime).build();
+            }
+
             MoribundServer.getInstance().getScheduler().start();
-
-            // TODO NEED TO FIND A BETTER WAY THAN THIS MESS
             MoribundServer.getInstance().getScheduler().scheduleJob(gameTimerJobDetail, trigger);
         } catch (SchedulerException e) {
             e.printStackTrace();
