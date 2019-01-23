@@ -1,12 +1,15 @@
 package com.github.moribund.objects.playable;
 
 import com.esotericsoftware.kryonet.Connection;
+import com.github.moribund.MoribundServer;
+import com.github.moribund.net.packets.graphics.AnimationProjectilePacket;
 import com.github.moribund.objects.nonplayable.ProjectileType;
 import com.github.moribund.objects.playable.containers.Equipment;
 import com.github.moribund.objects.playable.containers.Inventory;
 import com.github.moribund.objects.playable.containers.ItemContainer;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.val;
 
 /**
  * The {@code Player} that represents somebody being controlled by the client
@@ -60,5 +63,16 @@ public final class Player implements PlayableCharacter {
                 hitpoints -= 10;
                 break;
         }
+    }
+
+    @Override
+    public boolean canAttack() {
+        return true;
+    }
+
+    @Override
+    public void attack() {
+        val animationProjectilePacket = new AnimationProjectilePacket(playerId, 0, 0, 15);
+        MoribundServer.getInstance().getGameContainer().getGame(gameId).queuePacket(animationProjectilePacket);
     }
 }

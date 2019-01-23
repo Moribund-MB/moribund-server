@@ -3,7 +3,7 @@ package com.github.moribund.net.packets.items;
 import com.esotericsoftware.kryonet.Connection;
 import com.github.moribund.MoribundServer;
 import com.github.moribund.net.packets.IncomingPacket;
-import com.github.moribund.net.packets.account.UpdateAppearancePacket;
+import com.github.moribund.net.packets.graphics.UpdateAppearancePacket;
 import com.github.moribund.objects.nonplayable.EquippedItemType;
 import lombok.val;
 

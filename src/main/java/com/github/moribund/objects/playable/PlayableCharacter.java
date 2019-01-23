@@ -32,4 +32,8 @@ public interface PlayableCharacter extends Movable {
     ItemContainer getInventory();
 
     ItemContainer getEquipment();
+
+    boolean canAttack();
+
+    void attack();
 }

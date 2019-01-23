@@ -1,4 +1,4 @@
-package com.github.moribund.net.packets.key;
+package com.github.moribund.net.packets.input;
 
 import com.github.moribund.net.packets.OutgoingPacket;
 import lombok.Value;
