@@ -4,6 +4,8 @@ import com.github.moribund.game.GameContainer;
 import com.github.moribund.game.GameStateJob;
 import com.github.moribund.net.NetworkBootstrapper;
 import com.zaxxer.hikari.HikariDataSource;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import lombok.Getter;
 import lombok.val;
 import org.quartz.*;
@@ -28,6 +30,8 @@ public class MoribundServer {
     private final NetworkBootstrapper networkBootstrapper;
     @Getter
     private final GameContainer gameContainer;
+    @Getter
+    private final Int2ObjectMap<String> usernameMap;
 
     /**
      * Constructor that provides the {@code MoribundServer} its dependencies.
@@ -40,6 +44,7 @@ public class MoribundServer {
         this.networkBootstrapper = networkBootstrapper;
         this.scheduler = scheduler;
         this.dataSource = dataSource;
+        usernameMap = new Int2ObjectOpenHashMap<>();
     }
 
     /**

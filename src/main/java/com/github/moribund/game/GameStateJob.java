@@ -38,8 +38,9 @@ public final class GameStateJob implements Job {
         final ObjectList<PlayerData> playerData = new ObjectArrayList<>();
 
         game.forEachPlayer((playerId, player) ->
-                playerData.add(new PlayerData(playerId, player.getX(), player.getY(), player.getRotation(),
-                        player.getHitpoints(), player.getInventory().getItemIds(), player.getEquipment().getItemIds())));
+                playerData.add(new PlayerData(playerId, player.getUsername(), player.getX(), player.getY(),
+                        player.getRotation(), player.getHitpoints(), player.getInventory().getItemIds(),
+                        player.getEquipment().getItemIds())));
         return new GameStatePacket(playerData);
     }
 }

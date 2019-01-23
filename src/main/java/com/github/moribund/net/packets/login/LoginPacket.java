@@ -1,6 +1,7 @@
 package com.github.moribund.net.packets.login;
 
 import com.esotericsoftware.kryonet.Connection;
+import com.github.moribund.MoribundServer;
 import com.github.moribund.net.packets.IncomingPacket;
 import org.jooq.DSLContext;
 
@@ -12,6 +13,10 @@ public final class LoginPacket implements IncomingPacket {
 
     @Override
     public void process(Connection connection) {
+        if (MoribundServer.getInstance().getUsernameMap().containsValue(username)) {
+            connection.sendTCP(new LoginResponsePacket(LoginResponse.ALREADY_LOGGED_IN));
+            return;
+        }
         /*val dslContext = DSL.using(MoribundServer.getInstance().getDataSource(), SQLDialect.POSTGRES_10);
         try {
             val playersRecord = dslContext.selectFrom(Players.PLAYERS)
@@ -20,14 +25,17 @@ public final class LoginPacket implements IncomingPacket {
 
             if (BCrypt.checkpw(password, playersRecord.getPasswordHash())) {
                 connection.sendTCP(new LoginResponsePacket(LoginResponse.SUCCESS));
+                MoribundServer.getInstance().getUsernameMap().put(connection.getID(), username);
             } else {
                 connection.sendTCP(new LoginResponsePacket(LoginResponse.INCORRECT_PASSWORD));
             }
         } catch (NoDataFoundException e) {
             createAccount(dslContext);
             connection.sendTCP(new LoginResponsePacket(LoginResponse.NEW_ACCOUNT));
+            MoribundServer.getInstance().getUsernameMap().put(connection.getID(), username);
         }*/
         connection.sendTCP(new LoginResponsePacket(LoginResponse.SUCCESS));
+        MoribundServer.getInstance().getUsernameMap().put(connection.getID(), username);
     }
 
     private void createAccount(DSLContext dslContext) {

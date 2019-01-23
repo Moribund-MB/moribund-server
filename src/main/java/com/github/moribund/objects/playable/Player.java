@@ -30,6 +30,8 @@ public final class Player implements PlayableCharacter {
     private final ItemContainer inventory;
     @Getter
     private final ItemContainer equipment;
+    @Getter
+    private final String username;
     @Getter @Setter
     private float x;
     @Getter @Setter
@@ -51,9 +53,10 @@ public final class Player implements PlayableCharacter {
      * tile the {@code Player} starts at.
      * @param playerId The unique player ID.
      */
-    public Player(int gameId, int playerId, float startingX, float startingY, ArtificialTime initialTimeLeft) {
+    public Player(int gameId, int playerId, String username, float startingX, float startingY, ArtificialTime initialTimeLeft) {
         this.gameId = gameId;
         this.playerId = playerId;
+        this.username = username;
         x = startingX;
         y = startingY;
         timeLeft = initialTimeLeft;

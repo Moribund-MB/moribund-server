@@ -39,4 +39,6 @@ public interface PlayableCharacter extends Movable {
     void attack();
 
     ArtificialTime getTimeLeft();
+
+    String getUsername();
 }

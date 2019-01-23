@@ -32,7 +32,8 @@ public final class CreateNewPlayerRequestPacket implements IncomingPacket {
     public void process(Connection connection) {
         val game = MoribundServer.getInstance().getGameContainer().getAvailableGame();
         val playerId = connection.getID();
-        val player = createNewPlayer(game.getGameId(), playerId, connection);
+        val username = MoribundServer.getInstance().getUsernameMap().get(playerId);
+        val player = createNewPlayer(game.getGameId(), playerId, username, connection);
 
         sendNewPlayerPacket(game, player);
         game.addPlayer(playerId, player);
@@ -52,8 +53,8 @@ public final class CreateNewPlayerRequestPacket implements IncomingPacket {
         ObjectList<PlayerData> playerData = new ObjectArrayList<>();
         ObjectList<GroundItemData> groundItems = new ObjectArrayList<>();
         game.forEachPlayer((playerId, aPlayer) ->
-                playerData.add(new PlayerData(playerId, aPlayer.getX(), aPlayer.getY(), aPlayer.getRotation(),
-                        aPlayer.getHitpoints(), aPlayer.getInventory().getItemIds(),
+                playerData.add(new PlayerData(playerId, aPlayer.getUsername(), aPlayer.getX(), aPlayer.getY(),
+                        aPlayer.getRotation(), aPlayer.getHitpoints(), aPlayer.getInventory().getItemIds(),
                         aPlayer.getEquipment().getItemIds())));
         game.getGroundItems().forEach(item ->
                 groundItems.add(new GroundItemData(item.getItemType().getId(), item.getX(), item.getY())));
@@ -68,7 +69,9 @@ public final class CreateNewPlayerRequestPacket implements IncomingPacket {
      * @param newPlayer The newly made {@link Player}.
      */
     private void sendNewPlayerPacket(Game game, PlayableCharacter newPlayer) {
-        val newPlayerLoginPacket = new DrawNewPlayerPacket(newPlayer.getGameId(), newPlayer.getPlayerId(), newPlayer.getX(), newPlayer.getY(), newPlayer.getRotation(), newPlayer.getHitpoints());
+        val newPlayerLoginPacket = new DrawNewPlayerPacket(newPlayer.getGameId(), newPlayer.getPlayerId(),
+                newPlayer.getUsername(), newPlayer.getX(), newPlayer.getY(), newPlayer.getRotation(),
+                newPlayer.getHitpoints());
         game.forEachPlayer(player -> player.getConnection().sendTCP(newPlayerLoginPacket));
     }
 
@@ -80,10 +83,10 @@ public final class CreateNewPlayerRequestPacket implements IncomingPacket {
      * @param connection The connection of the newly made player.
      * @return The newly made {@link Player}.
      */
-    private Player createNewPlayer(int gameId, int playerId, Connection connection) {
+    private Player createNewPlayer(int gameId, int playerId, String username, Connection connection) {
         val x = ThreadLocalRandom.current().nextInt(0, 100);
         val y = ThreadLocalRandom.current().nextInt(0, 100);
-        val player = new Player(gameId, playerId, x, y, generateTimeLeft());
+        val player = new Player(gameId, playerId, username, x, y, generateTimeLeft());
         player.setConnection(connection);
         return player;
     }

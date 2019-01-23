@@ -16,6 +16,8 @@ public class DrawNewPlayerPacket implements OutgoingPacket {
      */
     private int playerId;
 
+    private String username;
+
     /**
      * The x location of the new player.
      */

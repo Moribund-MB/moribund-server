@@ -10,6 +10,7 @@ public class PlayerData implements Serializable {
     private static final long serialVersionUID = 5508611406619988854L;
 
     private int playerId;
+    private String username;
     private float x;
     private float y;
     private float rotation;
