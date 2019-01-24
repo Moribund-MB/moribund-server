@@ -18,7 +18,7 @@ public class GameStartJob implements Job {
             game.setStarted(true);
         }
 
-        counter.setTime(counter.getTime() - 1);
+        counter.decrementTime(1);
         game.queuePacket(new LobbyTimeLeftRefreshPacket(counter.toString()));
     }
 }

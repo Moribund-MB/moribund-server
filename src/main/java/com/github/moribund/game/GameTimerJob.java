@@ -13,7 +13,7 @@ public class GameTimerJob implements Job {
         val game = MoribundServer.getInstance().getGameContainer().getGame(gameId);
 
         game.forEachPlayer(player -> {
-            player.getTimeLeft().setTime(player.getTimeLeft().getTime() - 1);
+            player.getTimeLeft().decrementTime(1);
             val timeLeftRefreshPacket = new TimeLeftRefreshPacket(player.getTimeLeft().toString());
             player.getConnection().sendUDP(timeLeftRefreshPacket);
         });
