@@ -7,6 +7,7 @@ import com.github.moribund.game.data.EquippableItemsParser;
 import com.github.moribund.net.packets.IncomingPacket;
 import com.github.moribund.net.packets.graphics.UpdateAppearancePacket;
 import com.github.moribund.objects.nonplayable.Item;
+import com.github.moribund.objects.playable.PlayableCharacter;
 import lombok.val;
 
 public class EquipItemPacket implements IncomingPacket {
@@ -32,6 +33,14 @@ public class EquipItemPacket implements IncomingPacket {
         }
         if (player.getEquipment().hasSpace()) {
             player.getInventory().removeItem(item);
+            switchAttackableItems(player, item);
+            player.getEquipment().addItem(item);
+            MoribundServer.getInstance().getGameContainer().getGame(gameId).queuePacket(new UpdateAppearancePacket(playerId));
+        }
+    }
+
+    private void switchAttackableItems(PlayableCharacter player, Item item) {
+        if (AttackableItemsParser.isAttackableItem(item.getId())) {
             for (Item equipmentItem : player.getEquipment().getItems()) {
                 if (AttackableItemsParser.isAttackableItem(equipmentItem.getId())) {
                     if (!player.getInventory().hasSpace()) {
@@ -42,8 +51,6 @@ public class EquipItemPacket implements IncomingPacket {
                     break;
                 }
             }
-            player.getEquipment().addItem(item);
-            MoribundServer.getInstance().getGameContainer().getGame(gameId).queuePacket(new UpdateAppearancePacket(playerId));
         }
     }
 }
