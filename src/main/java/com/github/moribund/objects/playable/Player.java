@@ -4,6 +4,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.github.moribund.MoribundServer;
 import com.github.moribund.game.data.AttackableItemsParser;
 import com.github.moribund.game.data.WeaponDefinitionsParser;
+import com.github.moribund.net.packets.combat.DeathPacket;
 import com.github.moribund.net.packets.graphics.AnimationProjectilePacket;
 import com.github.moribund.objects.nonplayable.ItemType;
 import com.github.moribund.objects.nonplayable.ProjectileType;
@@ -65,14 +66,39 @@ public final class Player implements PlayableCharacter {
         timeLeft = initialTimeLeft;
         inventory = new Inventory();
         equipment = new Equipment();
+
+        setTimerChecks();
+    }
+
+    private void setTimerChecks() {
+        timeLeft.setTimeChecker(time -> {
+            if (time == 0) {
+                sendDeath();
+            }
+        });
     }
 
     public void collide(ProjectileType projectileType) {
         switch (projectileType) {
             case ARROW:
-                hitpoints -= 10;
+                damage(10);
                 break;
         }
+    }
+
+    @Override
+    public void damage(int damageAmount) {
+        hitpoints -= damageAmount;
+        if (hitpoints <= 0) {
+            sendDeath();
+        }
+    }
+
+    private void sendDeath() {
+        val deathPacket = new DeathPacket(playerId);
+        connection.sendTCP(deathPacket);
+
+        MoribundServer.getInstance().getGameContainer().getGame(gameId).removePlayer(playerId);
     }
 
     @Override
