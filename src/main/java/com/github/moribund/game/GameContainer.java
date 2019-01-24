@@ -13,7 +13,7 @@ public class GameContainer {
     static final int COUNTDOWN_TIME = 30;
 
     private final Int2ObjectMap<Game> games;
-    private static int gameIdCapacity;
+    private int nextGameId;
 
     public GameContainer(Int2ObjectMap<Game> games) {
         this.games = games;
@@ -33,16 +33,16 @@ public class GameContainer {
     }
 
     private Game createGame() {
-        val game = new Game(gameIdCapacity);
-        games.put(gameIdCapacity, game);
+        val game = new Game(nextGameId);
+        games.put(nextGameId, game);
         game.setup();
-        gameIdCapacity++;
+        nextGameId++;
         return game;
     }
 
     public Game getAvailableGame() {
         for (Game game : games.values()) {
-            if (game.getPlayerAmount() < MAXIMUM_PLAYERS) {
+            if (game.getPlayerAmount() < MAXIMUM_PLAYERS && !game.isStarted()) {
                 return game;
             }
         }
