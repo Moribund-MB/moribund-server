@@ -2,9 +2,9 @@ package com.github.moribund.net.packets.items;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.github.moribund.MoribundServer;
+import com.github.moribund.game.data.EquippableItemsParser;
 import com.github.moribund.net.packets.IncomingPacket;
 import com.github.moribund.net.packets.graphics.UpdateAppearancePacket;
-import com.github.moribund.objects.nonplayable.EquippedItemType;
 import lombok.val;
 
 public class EquipItemPacket implements IncomingPacket {
@@ -22,11 +22,13 @@ public class EquipItemPacket implements IncomingPacket {
         if (item == null) {
             return;
         }
-        if (!EquippedItemType.isEquippableItem(item.getId())) {
+        if (!EquippableItemsParser.isEquippableItem(item.getId())) {
             return;
         }
-        player.getInventory().removeItem(item);
-        player.getEquipment().addItem(item);
-        MoribundServer.getInstance().getGameContainer().getGame(gameId).queuePacket(new UpdateAppearancePacket(playerId));
+        if (player.getEquipment().hasSpace()) {
+            player.getInventory().removeItem(item);
+            player.getEquipment().addItem(item);
+            MoribundServer.getInstance().getGameContainer().getGame(gameId).queuePacket(new UpdateAppearancePacket(playerId));
+        }
     }
 }
