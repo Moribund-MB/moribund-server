@@ -1,6 +1,7 @@
 package com.github.moribund.net.packets.account;
 
 import com.esotericsoftware.kryonet.Connection;
+import com.github.moribund.GraphicalConstants;
 import com.github.moribund.MoribundServer;
 import com.github.moribund.game.Game;
 import com.github.moribund.net.packets.IncomingPacket;
@@ -84,8 +85,8 @@ public final class CreateNewPlayerRequestPacket implements IncomingPacket {
      * @return The newly made {@link Player}.
      */
     private Player createNewPlayer(int gameId, int playerId, String username, Connection connection) {
-        val x = ThreadLocalRandom.current().nextInt(0, 100);
-        val y = ThreadLocalRandom.current().nextInt(0, 100);
+        val x = (float) ThreadLocalRandom.current().nextDouble(GraphicalConstants.MINIMUM_X + 100, GraphicalConstants.MAXIMUM_X - 100);
+        val y = (float) ThreadLocalRandom.current().nextDouble(GraphicalConstants.MINIMUM_Y + 100, GraphicalConstants.MAXIMUM_Y - 100);
         val player = new Player(gameId, playerId, username, x, y, generateTimeLeft());
         player.setConnection(connection);
         return player;
