@@ -1,6 +1,7 @@
 package com.github.moribund.game;
 
 import com.github.moribund.MoribundServer;
+import com.github.moribund.net.packets.graphics.LobbyTimeLeftRefreshPacket;
 import com.github.moribund.utils.ArtificialTime;
 import lombok.val;
 import org.quartz.Job;
@@ -17,6 +18,7 @@ public class GameStartJob implements Job {
             game.setStarted(true);
         }
 
-        // queue time packet
+        counter.setTime(counter.getTime() - 1);
+        game.queuePacket(new LobbyTimeLeftRefreshPacket(counter.toString()));
     }
 }

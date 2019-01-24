@@ -19,6 +19,9 @@ public class EquipItemPacket implements IncomingPacket {
     @Override
     public void process(Connection connection) {
         val game = MoribundServer.getInstance().getGameContainer().getGame(gameId);
+        if (!game.isStarted()) {
+            return;
+        }
         val player = game.getPlayableCharacter(playerId);
         val item = player.getInventory().getItem(inventorySlot);
         if (item == null) {

@@ -33,6 +33,9 @@ public class PickupItemPacket implements OutgoingPacket, IncomingPacket {
     @Override
     public void process(Connection connection) {
         val game = MoribundServer.getInstance().getGameContainer().getGame(gameId);
+        if (!game.isStarted()) {
+            return;
+        }
         val player = game.getPlayableCharacter(playerId);
         val groundItem = game.getGroundItem(itemId, x, y);
         if (groundItem != null && player.getInventory().hasSpace()) {
