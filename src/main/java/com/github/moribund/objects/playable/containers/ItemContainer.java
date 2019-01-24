@@ -7,6 +7,7 @@ import lombok.Getter;
 
 public abstract class ItemContainer {
     private final int capacity;
+    @Getter
     final ObjectList<Item> items;
     @Getter
     final ObjectList<Integer> itemIds;
