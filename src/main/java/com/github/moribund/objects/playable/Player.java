@@ -3,6 +3,7 @@ package com.github.moribund.objects.playable;
 import com.esotericsoftware.kryonet.Connection;
 import com.github.moribund.MoribundServer;
 import com.github.moribund.game.data.AttackableItemsParser;
+import com.github.moribund.game.data.WeaponDefinitionsParser;
 import com.github.moribund.net.packets.graphics.AnimationProjectilePacket;
 import com.github.moribund.objects.nonplayable.ItemType;
 import com.github.moribund.objects.nonplayable.ProjectileType;
@@ -90,7 +91,14 @@ public final class Player implements PlayableCharacter {
 
     @Override
     public void attack() {
-        val animationProjectilePacket = new AnimationProjectilePacket(playerId, 0, 0, 15);
-        MoribundServer.getInstance().getGameContainer().getGame(gameId).queuePacket(animationProjectilePacket);
+        val weaponId = equipment.getItemIds().get(0); // albeit this can be arrows, I decided to make arrows have
+                                                      // the same definitions as a bow. There are too many exceptions
+                                                      // for arrows in this code.
+        val weaponDefinition = WeaponDefinitionsParser.getWeaponDefinition(weaponId);
+        if (weaponDefinition != null) {
+            val animationProjectilePacket = new AnimationProjectilePacket(playerId, weaponDefinition.getAnimationId(),
+                    weaponDefinition.getProjectileId(), weaponDefinition.getProjectileMovementSpeed());
+            MoribundServer.getInstance().getGameContainer().getGame(gameId).queuePacket(animationProjectilePacket);
+        }
     }
 }
