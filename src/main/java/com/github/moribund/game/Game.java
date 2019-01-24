@@ -109,6 +109,15 @@ public class Game {
 
     public void removePlayer(int playerId) {
         players.remove(playerId);
+        if (players.size() == 1 && started) {
+            sendVictoryRoyale();
+            endGame();
+            MoribundServer.getInstance().getGameContainer().removeGame(gameId);
+        }
+    }
+
+    private void sendVictoryRoyale() {
+        
     }
 
     public void forEachPlayer(Consumer<PlayableCharacter> playerConsumer) {

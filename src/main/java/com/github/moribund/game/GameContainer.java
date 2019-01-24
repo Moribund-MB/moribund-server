@@ -65,4 +65,8 @@ public class GameContainer {
     void forEachGame(BiConsumer<Integer, Game> gameBiConsumer) {
         games.forEach(gameBiConsumer);
     }
+
+    void removeGame(int gameId) {
+        games.remove(gameId);
+    }
 }
