@@ -11,7 +11,7 @@ import lombok.val;
 @UtilityClass @Log
 public class WeaponDefinitionsParser {
     private Int2ObjectMap<WeaponDefinition> WEAPON_DEFINITIONS = new Int2ObjectOpenHashMap<>();
-    private String FILE_PATH = "./src/main/resources/weapon_definitions.json";
+    private String FILE_PATH = "./src/main/resources/data/items/weapon_definitions.json";
 
     public void init() {
         loadItems();

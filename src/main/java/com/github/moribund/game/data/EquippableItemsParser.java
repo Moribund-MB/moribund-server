@@ -10,7 +10,7 @@ import lombok.val;
 @UtilityClass @Log
 public class EquippableItemsParser {
     private IntList ITEMS_LIST = new IntArrayList();
-    private String FILE_PATH = "./src/main/resources/equippable_items.json";
+    private String FILE_PATH = "./src/main/resources/data/items/equippable_items.json";
 
     public void init() {
         loadItems();

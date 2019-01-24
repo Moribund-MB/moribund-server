@@ -10,7 +10,7 @@ import lombok.val;
 @UtilityClass @Log
 public class AttackableItemsParser {
     private IntList ITEMS_LIST = new IntArrayList();
-    private String FILE_PATH = "./src/main/resources/attackable_items.json";
+    private String FILE_PATH = "./src/main/resources/data/items/attackable_items.json";
 
     public void init() {
         loadItems();
