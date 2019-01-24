@@ -77,6 +77,9 @@ public final class Player implements PlayableCharacter {
 
     @Override
     public boolean canAttack() {
+        if (!MoribundServer.getInstance().getGameContainer().getGame(gameId).isStarted()) {
+            return false;
+        }
         for (int itemId : equipment.getItemIds()) {
             if (AttackableItemsParser.isAttackableItem(itemId)) {
                 if (itemId == ItemType.BOW.getId()) {

@@ -7,14 +7,12 @@ import com.github.moribund.objects.nonplayable.GroundItem;
 import com.github.moribund.objects.nonplayable.ItemType;
 import com.github.moribund.objects.playable.PlayableCharacter;
 import com.github.moribund.objects.playable.Player;
+import com.github.moribund.utils.ArtificialTime;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.val;
-import lombok.var;
+import lombok.*;
 import org.quartz.*;
 
 import java.util.LinkedList;
@@ -31,12 +29,15 @@ public class Game {
     private final Queue<OutgoingPacket> outgoingPacketsQueue;
     @Getter
     private final ObjectSet<GroundItem> groundItems;
+    @Getter @Setter(AccessLevel.PACKAGE)
+    private boolean started;
 
     Game(int gameId) {
         this.gameId = gameId;
         players = new Int2ObjectOpenHashMap<>();
         groundItems = new ObjectArraySet<>();
         outgoingPacketsQueue = new LinkedList<>();
+        started = false;
         scheduleGameTimer();
     }
 
@@ -73,12 +74,37 @@ public class Game {
         outgoingPacketsQueue.add(outgoingPacket);
     }
 
-    public void emptyQueue() {
+    void emptyQueue() {
         outgoingPacketsQueue.clear();
     }
 
     public void addPlayer(int playerId, Player player) {
+        int countBefore = players.size();
         players.putIfAbsent(playerId, player);
+        if (!started && countBefore == GameContainer.MINIMUM_PLAYERS - 1) {
+            startCountdownForGame();
+        }
+    }
+
+    private void startCountdownForGame() {
+        try {
+            val repetitionTime = 1;
+            val scheduledTime = SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(repetitionTime)
+                    .withRepeatCount(GameContainer.COUNTDOWN_TIME);
+            val counterDataMap = new JobDataMap();
+            counterDataMap.put("counter", new ArtificialTime(GameContainer.COUNTDOWN_TIME));
+            val gameTimerJobDetail = JobBuilder.newJob(GameStartJob.class)
+                    .withIdentity("gameStartJob" + gameId)
+                    .usingJobData("gameId", gameId)
+                    .usingJobData(counterDataMap)
+                    .build();
+            var trigger = TriggerBuilder.newTrigger().withIdentity("gameStart" + gameId).withSchedule(scheduledTime).build();
+
+            MoribundServer.getInstance().getScheduler().start();
+            MoribundServer.getInstance().getScheduler().scheduleJob(gameTimerJobDetail, trigger);
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
     }
 
     public void removePlayer(int playerId) {
@@ -97,11 +123,11 @@ public class Game {
         return players.get(playerId);
     }
 
-    public int getPlayerAmount() {
+    int getPlayerAmount() {
         return players.size();
     }
 
-    public boolean containsPlayer(int playerId) {
+    boolean containsPlayer(int playerId) {
         return players.containsKey(playerId);
     }
 
