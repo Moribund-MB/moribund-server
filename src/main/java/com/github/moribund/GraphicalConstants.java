@@ -4,8 +4,8 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class GraphicalConstants {
-    private float TOTAL_WIDTH = 500;
-    private float TOTAL_HEIGHT = 500;
+    private float TOTAL_WIDTH = 3000;
+    private float TOTAL_HEIGHT = 3000;
 
     public float MAXIMUM_Y = TOTAL_HEIGHT / 2;
     public float MINIMUM_Y = TOTAL_HEIGHT / -2;

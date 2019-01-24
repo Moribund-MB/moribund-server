@@ -106,7 +106,7 @@ public class Game {
     }
 
     void setup() {
-        val itemsOnGround = ThreadLocalRandom.current().nextInt(10, 15);
+        val itemsOnGround = ThreadLocalRandom.current().nextInt(30, 40);
         for (int i = 0; i < itemsOnGround; i++) {
             val itemType = ItemType.random();
             val x = (float) ThreadLocalRandom.current().nextDouble(GraphicalConstants.MINIMUM_X, GraphicalConstants.MAXIMUM_X);
