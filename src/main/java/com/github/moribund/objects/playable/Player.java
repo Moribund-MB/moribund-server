@@ -2,7 +2,9 @@ package com.github.moribund.objects.playable;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.github.moribund.MoribundServer;
+import com.github.moribund.game.data.AttackableItemsParser;
 import com.github.moribund.net.packets.graphics.AnimationProjectilePacket;
+import com.github.moribund.objects.nonplayable.ItemType;
 import com.github.moribund.objects.nonplayable.ProjectileType;
 import com.github.moribund.objects.playable.containers.Equipment;
 import com.github.moribund.objects.playable.containers.Inventory;
@@ -74,7 +76,16 @@ public final class Player implements PlayableCharacter {
 
     @Override
     public boolean canAttack() {
-        return true;
+        for (int itemId : equipment.getItemIds()) {
+            if (AttackableItemsParser.isAttackableItem(itemId)) {
+                if (itemId == ItemType.BOW.getId()) {
+                    // todo see if this can be improved by not hard-coding this.
+                    return equipment.getItemIds().contains(ItemType.ARROW.getId());
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

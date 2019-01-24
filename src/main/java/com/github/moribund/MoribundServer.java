@@ -2,6 +2,8 @@ package com.github.moribund;
 
 import com.github.moribund.game.GameContainer;
 import com.github.moribund.game.GameStateJob;
+import com.github.moribund.game.data.AttackableItemsParser;
+import com.github.moribund.game.data.EquippableItemsParser;
 import com.github.moribund.net.NetworkBootstrapper;
 import com.zaxxer.hikari.HikariDataSource;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -54,6 +56,9 @@ public class MoribundServer {
         connectNetworking();
         startScheduler();
         scheduleGameState();
+
+        AttackableItemsParser.init();
+        EquippableItemsParser.init();
     }
 
     /**

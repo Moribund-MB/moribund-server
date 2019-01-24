@@ -3,7 +3,7 @@ package com.github.moribund.objects.nonplayable;
 import lombok.Getter;
 
 public enum ProjectileType {
-    ARROW(0);
+    ARROW(0), DART(1), SPEAR(2);
 
     private static final ProjectileType[] VALUES = values();
     @Getter
