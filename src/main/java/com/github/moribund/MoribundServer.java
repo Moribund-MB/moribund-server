@@ -22,8 +22,15 @@ public class MoribundServer {
      */
     private static MoribundServer instance;
 
+    /**
+     * A scheduler for scheduling different {@link Job}s.
+     */
     @Getter
     private final Scheduler scheduler;
+
+    /**
+     * The datasource to connect to the PostgreSQL database.
+     */
     @Getter
     private final HikariDataSource dataSource;
 
@@ -31,16 +38,21 @@ public class MoribundServer {
      * The network bootstrapper to start networking.
      */
     private final NetworkBootstrapper networkBootstrapper;
+
+    /**
+     * The container for the active games.
+     */
     @Getter
     private final GameContainer gameContainer;
+
+    /**
+     * The map of usernames that are currently connected to the server.
+     */
     @Getter
     private final Int2ObjectMap<String> usernameMap;
 
     /**
      * Constructor that provides the {@code MoribundServer} its dependencies.
-     * @param gameContainer The container that holds all the games and functions for them.
-     * @param networkBootstrapper The network bootstrapper to start networking.
-     * @param dataSource The Hikari datasource to establish an SQL connection.
      */
     MoribundServer(GameContainer gameContainer, NetworkBootstrapper networkBootstrapper, Scheduler scheduler, HikariDataSource dataSource) {
         this.gameContainer = gameContainer;

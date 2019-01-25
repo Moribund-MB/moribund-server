@@ -7,6 +7,9 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.java.Log;
 import lombok.val;
 
+/**
+ * The parser that parses the lis tof equippable items.
+ */
 @UtilityClass @Log
 public class EquippableItemsParser {
     private IntList ITEMS_LIST = new IntArrayList();

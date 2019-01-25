@@ -8,6 +8,9 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.java.Log;
 import lombok.val;
 
+/**
+ * The parser that parses the definitions for the weapons.
+ */
 @UtilityClass @Log
 public class WeaponDefinitionsParser {
     private Int2ObjectMap<WeaponDefinition> WEAPON_DEFINITIONS = new Int2ObjectOpenHashMap<>();
