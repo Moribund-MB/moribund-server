@@ -31,6 +31,8 @@ public class Game {
     private final ObjectSet<GroundItem> groundItems;
     @Getter @Setter(AccessLevel.PACKAGE)
     private boolean started;
+    @Getter
+    private boolean finished;
 
     Game(int gameId) {
         this.gameId = gameId;
@@ -94,6 +96,7 @@ public class Game {
         if (players.size() == 1 && started) {
             sendVictoryRoyale();
             endGame();
+        } else if (players.size() == 0 && started) {
             MoribundServer.getInstance().getGameContainer().removeGame(gameId);
         }
     }
@@ -152,5 +155,7 @@ public class Game {
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
+        started = false;
+        finished = true;
     }
 }

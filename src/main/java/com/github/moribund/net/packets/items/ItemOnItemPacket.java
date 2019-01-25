@@ -19,7 +19,7 @@ public class ItemOnItemPacket implements IncomingPacket {
     @Override
     public void process(Connection connection) {
         val game = MoribundServer.getInstance().getGameContainer().getGame(gameId);
-        if (!game.isStarted()) {
+        if (game == null || !game.isStarted() || game.isFinished()) {
             return;
         }
         val player = game.getPlayableCharacter(playerId);

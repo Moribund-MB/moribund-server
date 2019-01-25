@@ -42,7 +42,7 @@ public class GameContainer {
 
     public Game getAvailableGame() {
         for (Game game : games.values()) {
-            if (game.getPlayerAmount() < MAXIMUM_PLAYERS && !game.isStarted()) {
+            if (game.getPlayerAmount() < MAXIMUM_PLAYERS && !game.isStarted() && !game.isFinished()) {
                 return game;
             }
         }

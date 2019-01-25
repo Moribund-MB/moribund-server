@@ -103,7 +103,8 @@ public final class Player implements PlayableCharacter {
 
     @Override
     public boolean canAttack() {
-        if (!MoribundServer.getInstance().getGameContainer().getGame(gameId).isStarted()) {
+        val game = MoribundServer.getInstance().getGameContainer().getGame(gameId);
+        if (game == null || !game.isStarted() || game.isFinished()) {
             return false;
         }
         for (int itemId : equipment.getItemIds()) {
