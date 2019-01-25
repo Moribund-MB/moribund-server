@@ -23,7 +23,7 @@ public final class GameStateJob implements Job {
             val gameStatePacket = createGameStatePacket(game);
             game.sendPacketToEveryoneUsingUDP(gameStatePacket);
             for (OutgoingPacket outgoingPacket : game.getOutgoingPacketsQueue()) {
-                game.sendPacketToEveryoneUsingUDP(outgoingPacket);
+                game.sendPacketToEveryoneUsingTCP(outgoingPacket);
             }
             game.emptyQueue();
         });

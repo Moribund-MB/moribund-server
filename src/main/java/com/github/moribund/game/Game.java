@@ -42,15 +42,16 @@ public class Game {
         started = false;
     }
 
+
+    void sendPacketToEveryoneUsingUDP(OutgoingPacket outgoingPacket) {
+        players.forEach((playerId, player) -> player.getConnection().sendUDP(outgoingPacket));
+    }
+
     /**
      * Sends an object, or a packet, to all the {@link Game#players}.
      * @param outgoingPacket The outgoing packet to send everyone.
      */
-    public void sendPacketToEveryoneUsingUDP(OutgoingPacket outgoingPacket) {
-        players.forEach((playerId, player) -> player.getConnection().sendUDP(outgoingPacket));
-    }
-
-    public void sendPacketToEveryoneUsingTCP(OutgoingPacket outgoingPacket) {
+    void sendPacketToEveryoneUsingTCP(OutgoingPacket outgoingPacket) {
         players.forEach((playerId, player) -> player.getConnection().sendTCP(outgoingPacket));
     }
 

@@ -34,6 +34,6 @@ public final class KeyPressedPacket implements IncomingPacket {
         if (game.isFinished()) {
             return;
         }
-        game.sendPacketToEveryoneUsingTCP(keyPressedResponsePacket);
+        game.queuePacket(keyPressedResponsePacket);
     }
 }

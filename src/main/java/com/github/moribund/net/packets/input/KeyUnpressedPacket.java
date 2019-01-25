@@ -34,6 +34,6 @@ public final class KeyUnpressedPacket implements IncomingPacket {
         if (game.isFinished()) {
             return;
         }
-        game.sendPacketToEveryoneUsingTCP(keyUnpressedResponsePacket);
+        game.queuePacket(keyUnpressedResponsePacket);
     }
 }

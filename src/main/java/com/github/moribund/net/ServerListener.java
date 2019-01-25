@@ -25,7 +25,7 @@ public class ServerListener extends Listener {
         MoribundServer.getInstance().getUsernameMap().remove(playerId);
         if (game != null) {
             game.removePlayer(playerId);
-            game.sendPacketToEveryoneUsingTCP(new LogoutPacket(game.getGameId(), playerId));
+            game.queuePacket(new LogoutPacket(game.getGameId(), playerId));
         }
 
         gameContainer.removeIdleGames();
