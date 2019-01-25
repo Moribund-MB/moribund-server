@@ -79,10 +79,9 @@ public final class Player implements PlayableCharacter {
     }
 
     public void collide(ProjectileType projectileType, PlayableCharacter source) {
-        switch (projectileType) {
-            case ARROW:
-                damage(10, source);
-                break;
+        val weaponDefinition = WeaponDefinitionsParser.getWeaponDefinition(projectileType.getSourceItemType().getId());
+        if (weaponDefinition != null) {
+            damage(weaponDefinition.getDamage(), source);
         }
     }
 

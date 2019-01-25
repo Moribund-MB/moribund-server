@@ -5,11 +5,13 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import lombok.Getter;
 
 public enum ProjectileType {
-    ARROW(0), DART(1), SPEAR(2);
+    ARROW(0, ItemType.BOW), DART(1, ItemType.DART), SPEAR(2, ItemType.SPEAR);
 
     private static final Int2ObjectMap<ProjectileType> VALUES;
     @Getter
     private final int id;
+    @Getter
+    private final ItemType sourceItemType;
 
     static {
         VALUES = new Int2ObjectOpenHashMap<>();
@@ -18,8 +20,9 @@ public enum ProjectileType {
         }
     }
 
-    ProjectileType(int id) {
+    ProjectileType(int id, ItemType sourceItemType) {
         this.id = id;
+        this.sourceItemType = sourceItemType;
     }
 
     public static ProjectileType getForId(int id) {

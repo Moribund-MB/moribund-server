@@ -8,4 +8,5 @@ public class WeaponDefinition {
     private int animationId;
     private int projectileId;
     private int projectileMovementSpeed;
+    private int damage;
 }
