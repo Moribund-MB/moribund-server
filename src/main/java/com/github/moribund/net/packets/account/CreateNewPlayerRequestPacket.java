@@ -93,6 +93,8 @@ public final class CreateNewPlayerRequestPacket implements IncomingPacket {
     }
 
     private ArtificialTime generateTimeLeft() {
-        return new ArtificialTime(70);
+        val minimumSeconds = 180;
+        val maximumSeconds = 300;
+        return new ArtificialTime(ThreadLocalRandom.current().nextInt(minimumSeconds, maximumSeconds));
     }
 }
