@@ -38,24 +38,6 @@ public class Game {
         groundItems = new ObjectArraySet<>();
         outgoingPacketsQueue = new LinkedList<>();
         started = false;
-        scheduleGameTimer();
-    }
-
-    private void scheduleGameTimer() {
-        try {
-            val timePerTick = 1;
-            val scheduledTime = SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(timePerTick).repeatForever();
-            val gameTimerJobDetail = JobBuilder.newJob(GameTimerJob.class)
-                    .withIdentity("gameTimerJob" + gameId)
-                    .usingJobData("gameId", gameId)
-                    .build();
-            var trigger = TriggerBuilder.newTrigger().withIdentity("gameTimer" + gameId).withSchedule(scheduledTime).build();
-
-            MoribundServer.getInstance().getScheduler().start();
-            MoribundServer.getInstance().getScheduler().scheduleJob(gameTimerJobDetail, trigger);
-        } catch (SchedulerException e) {
-            e.printStackTrace();
-        }
     }
 
     /**

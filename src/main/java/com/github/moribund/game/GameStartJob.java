@@ -4,8 +4,8 @@ import com.github.moribund.MoribundServer;
 import com.github.moribund.net.packets.graphics.LobbyTimeLeftRefreshPacket;
 import com.github.moribund.utils.ArtificialTime;
 import lombok.val;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
+import lombok.var;
+import org.quartz.*;
 
 public class GameStartJob implements Job {
     @Override
@@ -16,9 +16,27 @@ public class GameStartJob implements Job {
 
         if (counter.getTime() == 0) {
             game.setStarted(true);
+            scheduleGameTimer(gameId);
         }
 
         counter.decrementTime(1);
         game.queuePacket(new LobbyTimeLeftRefreshPacket(counter.toString()));
+    }
+
+    private void scheduleGameTimer(int gameId) {
+        try {
+            val timePerTick = 1;
+            val scheduledTime = SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(timePerTick).repeatForever();
+            val gameTimerJobDetail = JobBuilder.newJob(GameTimerJob.class)
+                    .withIdentity("gameTimerJob" + gameId)
+                    .usingJobData("gameId", gameId)
+                    .build();
+            var trigger = TriggerBuilder.newTrigger().withIdentity("gameTimer" + gameId).withSchedule(scheduledTime).build();
+
+            MoribundServer.getInstance().getScheduler().start();
+            MoribundServer.getInstance().getScheduler().scheduleJob(gameTimerJobDetail, trigger);
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
     }
 }
