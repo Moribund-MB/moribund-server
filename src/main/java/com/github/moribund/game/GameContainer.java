@@ -8,7 +8,7 @@ import lombok.val;
 import java.util.function.BiConsumer;
 
 public class GameContainer {
-    private static final int MAXIMUM_PLAYERS = 2;
+    private static final int MAXIMUM_PLAYERS = 4;
     static final int MINIMUM_PLAYERS = 2;
     static final int COUNTDOWN_TIME = 30;
 
