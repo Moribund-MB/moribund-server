@@ -9,6 +9,7 @@ import lombok.val;
 public class ProjectileCollisionPacket implements IncomingPacket {
     private int gameId;
     private int playerId;
+    private int sourcePlayerId;
     private int projectileId;
 
     private ProjectileCollisionPacket() { }
@@ -16,7 +17,15 @@ public class ProjectileCollisionPacket implements IncomingPacket {
     @Override
     public void process(Connection connection) {
         val game = MoribundServer.getInstance().getGameContainer().getGame(gameId);
+        if (game == null || game.isFinished() || !game.isStarted()) {
+            return;
+        }
         val player = game.getPlayableCharacter(playerId);
-        player.collide(ProjectileType.getForId(projectileId));
+        val sourcePlayer = game.getPlayableCharacter(sourcePlayerId);
+        if (player == null || sourcePlayer == null) {
+            return;
+        }
+
+        player.collide(ProjectileType.getForId(projectileId), sourcePlayer);
     }
 }

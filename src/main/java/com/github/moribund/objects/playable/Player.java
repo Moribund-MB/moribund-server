@@ -73,31 +73,35 @@ public final class Player implements PlayableCharacter {
     private void setTimerChecks() {
         timeLeft.setTimeChecker(time -> {
             if (time == 0) {
-                sendDeath();
+                sendDeath(null);
             }
         });
     }
 
-    public void collide(ProjectileType projectileType) {
+    public void collide(ProjectileType projectileType, PlayableCharacter source) {
         switch (projectileType) {
             case ARROW:
-                damage(10);
+                damage(10, source);
                 break;
         }
     }
 
     @Override
-    public void damage(int damageAmount) {
+    public void damage(int damageAmount, PlayableCharacter source) {
         hitpoints -= damageAmount;
         if (hitpoints <= 0) {
-            sendDeath();
+            sendDeath(source);
         }
     }
 
-    private void sendDeath() {
+    private void sendDeath(PlayableCharacter source) {
         val deathPacket = new DeathPacket(playerId);
         connection.sendTCP(deathPacket);
 
+        if (source != null) {
+            long timeGained = (long) (timeLeft.getTime() * 0.2);
+            source.getTimeLeft().incrementTime(timeGained);
+        }
         MoribundServer.getInstance().getGameContainer().getGame(gameId).removePlayer(playerId);
     }
 

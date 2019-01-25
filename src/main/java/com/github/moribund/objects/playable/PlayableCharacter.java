@@ -26,11 +26,11 @@ public interface PlayableCharacter extends Movable {
      */
     Connection getConnection();
 
-    void collide(ProjectileType projectileType);
+    void collide(ProjectileType projectileType, PlayableCharacter source);
 
     int getHitpoints();
 
-    void damage(int hitpoints);
+    void damage(int damageAmount, PlayableCharacter source);
 
     ItemContainer getInventory();
 
