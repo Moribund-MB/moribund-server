@@ -26,6 +26,7 @@ public class ExitGamePacket implements IncomingPacket, OutgoingPacket {
         if (game == null) {
             return;
         }
+        game.sendPacketToEveryoneUsingTCP(new ExitGamePacket(gameId, playerId));
         game.removePlayer(playerId);
     }
 }

@@ -3,6 +3,7 @@ package com.github.moribund.game;
 import com.github.moribund.GraphicalConstants;
 import com.github.moribund.MoribundServer;
 import com.github.moribund.net.packets.OutgoingPacket;
+import com.github.moribund.net.packets.graphics.VictoryRoyalePacket;
 import com.github.moribund.objects.nonplayable.GroundItem;
 import com.github.moribund.objects.nonplayable.ItemType;
 import com.github.moribund.objects.playable.PlayableCharacter;
@@ -149,7 +150,12 @@ public class Game {
      * Sends a victory royale to the last player left.
      */
     private void sendVictoryRoyale() {
-        
+        var lastPlayerId = -1;
+        for (int playerId : players.keySet()) {
+            lastPlayerId = playerId;
+        }
+        val victoryRoyalePacket = new VictoryRoyalePacket(lastPlayerId);
+        sendPacketToEveryoneUsingTCP(victoryRoyalePacket);
     }
 
     /**

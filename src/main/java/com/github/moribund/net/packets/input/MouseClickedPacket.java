@@ -14,7 +14,13 @@ public class MouseClickedPacket implements IncomingPacket {
     @Override
     public void process(Connection connection) {
         val game = MoribundServer.getInstance().getGameContainer().getGame(gameId);
+        if (game == null) {
+            return;
+        }
         val player = game.getPlayableCharacter(playerId);
+        if (player == null) {
+            return;
+        }
         if (player.canAttack()) {
             player.attack();
         }
