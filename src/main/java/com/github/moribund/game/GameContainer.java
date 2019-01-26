@@ -25,7 +25,7 @@ public class GameContainer {
     /**
      * The lobby timer for the game.
      */
-    static final int COUNTDOWN_TIME = 2;
+    static final int COUNTDOWN_TIME = 30;
 
     /**
      * The map of games running associated with their game IDs.
