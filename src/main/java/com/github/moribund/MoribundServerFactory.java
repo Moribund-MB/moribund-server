@@ -5,6 +5,7 @@ import com.github.moribund.net.NetworkBootstrapper;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import lombok.extern.java.Log;
 import lombok.val;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -13,6 +14,7 @@ import org.quartz.impl.StdSchedulerFactory;
 /**
  * The factory that produces the {@link MoribundServer} and all of its dependencies.
  */
+@Log
 class MoribundServerFactory {
 
     /**
@@ -23,8 +25,8 @@ class MoribundServerFactory {
         val playersMap = createGameContainer();
         val networkBootstrapper = createNetworkBootstrapper();
         val scheduler = createScheduler();
-//        val dataSource = createHikariDataSource();
-        return new MoribundServer(playersMap, networkBootstrapper, scheduler, null);
+        val dataSource = createHikariDataSource();
+        return new MoribundServer(playersMap, networkBootstrapper, scheduler, dataSource);
     }
 
     /**
@@ -40,6 +42,7 @@ class MoribundServerFactory {
         config.setAutoCommit(true);
         config.setMaximumPoolSize(32);
 
+        log.info("Initiated the PostgreSQL connection!");
         return new HikariDataSource(config);
     }
 
