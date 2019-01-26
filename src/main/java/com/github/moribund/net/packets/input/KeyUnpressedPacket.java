@@ -31,7 +31,7 @@ public final class KeyUnpressedPacket implements IncomingPacket {
     public void process(Connection connection) {
         val keyUnpressedResponsePacket = new KeyUnpressedResponsePacket(playerId, keyUnpressed);
         val game = MoribundServer.getInstance().getGameContainer().getGame(gameId);
-        if (game.isFinished()) {
+        if (game == null) {
             return;
         }
         game.queuePacket(keyUnpressedResponsePacket);

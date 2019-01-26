@@ -4,7 +4,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.github.moribund.MoribundServer;
 import com.github.moribund.net.packets.IncomingPacket;
-import com.github.moribund.net.packets.account.LogoutPacket;
+import com.github.moribund.net.packets.account.ExitGamePacket;
 import com.github.moribund.objects.playable.Player;
 import lombok.val;
 
@@ -13,7 +13,7 @@ import lombok.val;
  * call {@link IncomingPacket#process(Connection)}. This allows for a lot of safety of info as the client now has
  * distinguishment of what packet is of what classification. Refer to {@link IncomingPacket}'s documentation
  * for more info.This listener also checks to see if a {@link Player} has disconnected
- * and sends a {@link com.github.moribund.net.packets.account.LogoutPacket} accordingly.
+ * and sends a {@link ExitGamePacket} accordingly.
  */
 public class ServerListener extends Listener {
     @Override
@@ -25,7 +25,7 @@ public class ServerListener extends Listener {
         MoribundServer.getInstance().getUsernameMap().remove(playerId);
         if (game != null) {
             game.removePlayer(playerId);
-            game.queuePacket(new LogoutPacket(game.getGameId(), playerId));
+            game.queuePacket(new ExitGamePacket(game.getGameId(), playerId));
         }
 
         gameContainer.removeIdleGames();

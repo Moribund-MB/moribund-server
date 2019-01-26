@@ -31,7 +31,7 @@ public final class KeyPressedPacket implements IncomingPacket {
     public void process(Connection connection) {
         val keyPressedResponsePacket = new KeyPressedResponsePacket(playerId, keyPressed);
         val game = MoribundServer.getInstance().getGameContainer().getGame(gameId);
-        if (game.isFinished()) {
+        if (game == null) {
             return;
         }
         game.queuePacket(keyPressedResponsePacket);
