@@ -207,6 +207,10 @@ public class Game {
         }
     }
 
+    public void addGroundItem(GroundItem groundItem) {
+        groundItems.add(groundItem);
+    }
+
     /**
      * Gets a ground item at a given id, x-coordinate, and y-coordinate.
      * @return The ground item.
