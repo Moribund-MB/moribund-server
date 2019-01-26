@@ -4,7 +4,7 @@
     "animationId": 2,
     "projectileId": 2,
     "projectileMovementSpeed": 15,
-    "damage": 5
+    "damage": 10
   },
   {
     "itemId": 5,
@@ -24,6 +24,6 @@
     "animationId": 1,
     "projectileId": 1,
     "projectileMovementSpeed": 15,
-    "damage": 2
+    "damage": 5
   }
 ]
