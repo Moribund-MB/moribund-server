@@ -3,7 +3,7 @@ import org.jooq.codegen.GenerationTool
 
 apply plugin: 'java'
 
-version = '0.2-SNAPSHOT'
+version = '1.0-SNAPSHOT'
 
 sourceSets {
     main {

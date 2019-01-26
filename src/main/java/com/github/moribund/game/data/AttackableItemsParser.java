@@ -7,6 +7,9 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.java.Log;
 import lombok.val;
 
+/**
+ * The parser that parses the list of items are are attackable.
+ */
 @UtilityClass @Log
 public class AttackableItemsParser {
     private IntList ITEMS_LIST = new IntArrayList();

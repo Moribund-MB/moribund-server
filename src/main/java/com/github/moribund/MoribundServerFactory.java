@@ -27,6 +27,10 @@ class MoribundServerFactory {
         return new MoribundServer(playersMap, networkBootstrapper, scheduler, null);
     }
 
+    /**
+     * Creates a {@link HikariDataSource} to connect to the PostgreSQL database.
+     * @return The {@link HikariDataSource}.
+     */
     private HikariDataSource createHikariDataSource() {
         val config = new HikariConfig();
 
@@ -52,6 +56,10 @@ class MoribundServerFactory {
         return null;
     }
 
+    /**
+     * Creates a container that stores games.
+     * @return The container for games.
+     */
     private GameContainer createGameContainer() {
         return new GameContainer(new Int2ObjectOpenHashMap<>());
     }
