@@ -1,5 +1,6 @@
 package com.github.moribund.objects.nonplayable;
 
+import com.github.moribund.net.packets.data.GroundItemData;
 import com.github.moribund.objects.attributes.Locatable;
 import lombok.Value;
 
@@ -16,5 +17,9 @@ public class GroundItem implements Locatable {
 
     public boolean matches(int itemId, float x, float y) {
         return itemType.getId() == itemId && getX() == x && getY() == y;
+    }
+
+    public GroundItemData asData() {
+        return new GroundItemData(itemType.getId(), x, y);
     }
 }

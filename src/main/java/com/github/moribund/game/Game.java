@@ -79,7 +79,7 @@ public class Game {
      * Sends an object, or a packet, to all the {@link Game#players}.
      * @param outgoingPacket The outgoing packet to send everyone.
      */
-    void sendPacketToEveryoneUsingTCP(OutgoingPacket outgoingPacket) {
+    public void sendPacketToEveryoneUsingTCP(OutgoingPacket outgoingPacket) {
         players.forEach((playerId, player) -> player.getConnection().sendTCP(outgoingPacket));
     }
 

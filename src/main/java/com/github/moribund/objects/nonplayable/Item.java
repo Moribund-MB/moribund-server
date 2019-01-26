@@ -5,6 +5,7 @@ import lombok.Getter;
 public class Item {
     @Getter
     private final int id;
+    @Getter
     private final ItemType itemType;
 
     public Item(int id) {

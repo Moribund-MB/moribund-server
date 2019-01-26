@@ -95,7 +95,7 @@ public final class Player implements PlayableCharacter {
 
     private void sendDeath(PlayableCharacter source) {
         val deathPacket = new DeathPacket(playerId);
-        MoribundServer.getInstance().getGameContainer().getGame(gameId).queuePacket(deathPacket);
+        MoribundServer.getInstance().getGameContainer().getGame(gameId).sendPacketToEveryoneUsingTCP(deathPacket);
 
         if (source != null) {
             long timeGained = (long) (timeLeft.getTime() * 0.2);

@@ -1,12 +1,16 @@
 package com.github.moribund.net.packets.items;
 
 import com.esotericsoftware.kryonet.Connection;
+import com.github.moribund.MoribundServer;
 import com.github.moribund.net.packets.IncomingPacket;
+import com.github.moribund.net.packets.graphics.NewGroundItemPacket;
+import com.github.moribund.objects.nonplayable.GroundItem;
+import lombok.val;
 
 /**
  * A packet sent by the client telling the server that a user requested to drop an item.
  */
-public class DropItemPacket implements IncomingPacket {
+public final class DropItemPacket implements IncomingPacket {
     /**
      * The game ID of the player dropping.
      */
@@ -26,6 +30,23 @@ public class DropItemPacket implements IncomingPacket {
 
     @Override
     public void process(Connection connection) {
+        val game = MoribundServer.getInstance().getGameContainer().getGame(gameId);
+        if (game == null || !game.isStarted() || game.isFinished()) {
+            return;
+        }
+        val player = game.getPlayableCharacter(playerId);
+        if (player == null) {
+            return;
+        }
+        val item = player.getInventory().getItem(inventorySlot);
+        if (item == null) {
+            return;
+        }
+        val groundItem = new GroundItem(item.getItemType(), player.getX(), player.getY());
+        player.getInventory().removeItem(item);
+        game.addGroundItem(groundItem);
 
+        val newGroundItemPacket = new NewGroundItemPacket(groundItem.getItemType().getId(), groundItem.getX(), groundItem.getY());
+        game.queuePacket(newGroundItemPacket);
     }
 }
