@@ -1,9 +1,9 @@
-package com.github.moribund.objects.playable;
+package com.github.moribund.objects.playable.players;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.github.moribund.objects.attributes.Movable;
 import com.github.moribund.objects.nonplayable.ProjectileType;
-import com.github.moribund.objects.playable.containers.ItemContainer;
+import com.github.moribund.objects.playable.players.containers.ItemContainer;
 import com.github.moribund.utils.ArtificialTime;
 
 /**

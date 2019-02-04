@@ -1,5 +1,6 @@
 package com.github.moribund.net.packets.data;
 
+import com.github.moribund.objects.playable.players.PlayableCharacter;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import lombok.Getter;
 import lombok.Value;
@@ -7,7 +8,7 @@ import lombok.Value;
 import java.io.Serializable;
 
 /**
- * The data related to {@link com.github.moribund.objects.playable.PlayableCharacter}s to transfer via
+ * The data related to {@link PlayableCharacter}s to transfer via
  * networking.
  */
 @Value

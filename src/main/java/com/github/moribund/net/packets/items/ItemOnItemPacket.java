@@ -5,7 +5,7 @@ import com.github.moribund.MoribundServer;
 import com.github.moribund.net.packets.IncomingPacket;
 import com.github.moribund.objects.nonplayable.Item;
 import com.github.moribund.objects.nonplayable.ItemType;
-import com.github.moribund.objects.playable.PlayableCharacter;
+import com.github.moribund.objects.playable.players.PlayableCharacter;
 import lombok.val;
 
 /**

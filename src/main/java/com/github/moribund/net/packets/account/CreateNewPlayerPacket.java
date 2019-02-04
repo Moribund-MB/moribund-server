@@ -3,7 +3,8 @@ package com.github.moribund.net.packets.account;
 import com.github.moribund.net.packets.OutgoingPacket;
 import com.github.moribund.net.packets.data.GroundItemData;
 import com.github.moribund.net.packets.data.PlayerData;
-import com.github.moribund.objects.playable.Player;
+import com.github.moribund.objects.playable.players.PlayableCharacter;
+import com.github.moribund.objects.playable.players.Player;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import lombok.Value;
 
@@ -25,7 +26,7 @@ public class CreateNewPlayerPacket implements OutgoingPacket {
     private int playerId;
 
     /**
-     * The {@link PlayerData} of all the {@link com.github.moribund.objects.playable.PlayableCharacter}s in the
+     * The {@link PlayerData} of all the {@link PlayableCharacter}s in the
      * game.
      */
     private ObjectList<PlayerData> playerData;

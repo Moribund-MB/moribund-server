@@ -1,7 +1,7 @@
 package com.github.moribund.net.packets.account;
 
 import com.github.moribund.net.packets.OutgoingPacket;
-import com.github.moribund.objects.playable.Player;
+import com.github.moribund.objects.playable.players.Player;
 import lombok.Value;
 
 /**

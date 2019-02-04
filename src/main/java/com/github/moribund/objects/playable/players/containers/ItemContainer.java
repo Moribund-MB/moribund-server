@@ -1,4 +1,4 @@
-package com.github.moribund.objects.playable.containers;
+package com.github.moribund.objects.playable.players.containers;
 
 import com.github.moribund.objects.nonplayable.Item;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;

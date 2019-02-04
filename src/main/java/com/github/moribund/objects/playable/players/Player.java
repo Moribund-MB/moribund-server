@@ -1,4 +1,4 @@
-package com.github.moribund.objects.playable;
+package com.github.moribund.objects.playable.players;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.github.moribund.MoribundServer;
@@ -8,9 +8,9 @@ import com.github.moribund.net.packets.combat.DeathPacket;
 import com.github.moribund.net.packets.graphics.AnimationProjectilePacket;
 import com.github.moribund.objects.nonplayable.ItemType;
 import com.github.moribund.objects.nonplayable.ProjectileType;
-import com.github.moribund.objects.playable.containers.Equipment;
-import com.github.moribund.objects.playable.containers.Inventory;
-import com.github.moribund.objects.playable.containers.ItemContainer;
+import com.github.moribund.objects.playable.players.containers.Equipment;
+import com.github.moribund.objects.playable.players.containers.Inventory;
+import com.github.moribund.objects.playable.players.containers.ItemContainer;
 import com.github.moribund.utils.ArtificialTime;
 import lombok.Getter;
 import lombok.Setter;

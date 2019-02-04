@@ -2,7 +2,7 @@ package com.github.moribund.game;
 
 import com.github.moribund.MoribundServer;
 import com.github.moribund.net.packets.graphics.TimeLeftRefreshPacket;
-import com.github.moribund.objects.playable.PlayableCharacter;
+import com.github.moribund.objects.playable.players.PlayableCharacter;
 import lombok.val;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;

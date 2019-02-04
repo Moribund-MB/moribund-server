@@ -5,7 +5,7 @@ import com.esotericsoftware.kryonet.Listener;
 import com.github.moribund.MoribundServer;
 import com.github.moribund.net.packets.IncomingPacket;
 import com.github.moribund.net.packets.account.ExitGamePacket;
-import com.github.moribund.objects.playable.Player;
+import com.github.moribund.objects.playable.players.Player;
 import lombok.val;
 
 /**
