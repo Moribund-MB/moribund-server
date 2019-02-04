@@ -11,7 +11,12 @@ import lombok.val;
  * the server where the player currently is for as long as a rotation flag is active.
  */
 public final class LocationPacket implements IncomingPacket {
+
+    /**
+     * The game ID of the player at the tile.
+     */
     private final int gameId;
+
     /**
      * The player ID of the player that is at the given tile.
      */

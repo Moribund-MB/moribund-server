@@ -14,17 +14,24 @@ import lombok.Value;
  */
 @Value
 public class CreateNewPlayerPacket implements OutgoingPacket {
+    /**
+     * The game ID of the newly made player.
+     */
     private int gameId;
+
     /**
      * The unique player ID of the one who just logged in.
      */
     private int playerId;
 
     /**
-     * The locations of all the {@link Player}s in the
-     * game currently so that they may be rendered to this player logging in.
+     * The {@link PlayerData} of all the {@link com.github.moribund.objects.playable.PlayableCharacter}s in the
+     * game.
      */
     private ObjectList<PlayerData> playerData;
 
+    /**
+     * The {@link GroundItemData} of all the {@link com.github.moribund.objects.nonplayable.GroundItem}s in the game.
+     */
     private ObjectList<GroundItemData> groundItems;
 }

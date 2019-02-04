@@ -26,6 +26,10 @@ public final class DropItemPacket implements IncomingPacket {
      */
     private int inventorySlot;
 
+    /**
+     * A private constructor to ensure the server cannot unexpectedly send this
+     * request to the client.
+     */
     private DropItemPacket() { }
 
     @Override

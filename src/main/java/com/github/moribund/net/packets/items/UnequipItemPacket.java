@@ -6,9 +6,24 @@ import com.github.moribund.net.packets.IncomingPacket;
 import com.github.moribund.net.packets.graphics.UpdateAppearancePacket;
 import lombok.val;
 
+/**
+ * A packet sent by the client telling the server that a user requested to unequip an item at a certain inventory slot.
+ */
 public class UnequipItemPacket implements IncomingPacket {
+
+    /**
+     * The game ID of the player equipping.
+     */
     private int gameId;
+
+    /**
+     * The player ID of the player equipping.
+     */
     private int playerId;
+
+    /**
+     * The slot ID of the equipment the player is attempted to unequip.
+     */
     private int equipmentSlot;
 
     @Override

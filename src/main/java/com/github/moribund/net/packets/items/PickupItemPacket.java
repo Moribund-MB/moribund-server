@@ -7,12 +7,36 @@ import com.github.moribund.net.packets.OutgoingPacket;
 import com.github.moribund.objects.nonplayable.Item;
 import lombok.val;
 
+/**
+ * A packet sent by both the server and the client to handle picking up {@link com.github.moribund.objects.nonplayable.GroundItem}s.
+ */
 public class PickupItemPacket implements OutgoingPacket, IncomingPacket {
+
+    /**
+     * The game ID of the player.
+     */
     private final int gameId;
+
+    /**
+     * The player ID of the player.
+     */
     private final int playerId;
+
+    /**
+     * The item ID of the item on the ground.
+     */
     private final int itemId;
+
+    /**
+     * The x-coordinate of the ground item.
+     */
     private final float x;
+
+    /**
+     * The y-coordinate of the ground item.
+     */
     private final float y;
+
 
     public PickupItemPacket(int gameId, int playerId, int itemId, float x, float y) {
         this.gameId = gameId;

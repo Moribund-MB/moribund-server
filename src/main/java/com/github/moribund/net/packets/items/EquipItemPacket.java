@@ -10,11 +10,30 @@ import com.github.moribund.objects.nonplayable.Item;
 import com.github.moribund.objects.playable.PlayableCharacter;
 import lombok.val;
 
+/**
+ * A packet sent by the client telling the server that a user requested to equip an item at a certain inventory slot.
+ */
 public class EquipItemPacket implements IncomingPacket {
+
+    /**
+     * The game ID of the player equipping.
+     */
     private int gameId;
+
+    /**
+     * The player ID of the player equipping.
+     */
     private int playerId;
+
+    /**
+     * The inventory slot ID of the item that is being attempted to be equipped.
+     */
     private int inventorySlot;
 
+    /**
+     * A private constructor to ensure the server cannot unexpectedly send this
+     * request to the client.
+     */
     private EquipItemPacket() { }
 
     @Override

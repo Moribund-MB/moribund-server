@@ -9,12 +9,19 @@ import lombok.NoArgsConstructor;
 import lombok.val;
 
 /**
- * A packet that indicates a player has disconnected. This allows for the server and client to enact the appropriate
- * clearing methods to remove the Player from their data.
+ * A packet that indicates a player has disconnected from a game. This allows for the server and client to enact the
+ * appropriate clearing methods to remove the Player from their data.
+ *
+ * @apiNote This does NOT indicate an account has logged out entirely, rather that is has logged out from a certain
+ * game session.
  */
 @AllArgsConstructor @NoArgsConstructor
 public class ExitGamePacket implements IncomingPacket, OutgoingPacket {
+    /**
+     * The game ID of the player logging out.
+     */
     private int gameId;
+
     /**
      * The player ID of the player that disconnected.
      */

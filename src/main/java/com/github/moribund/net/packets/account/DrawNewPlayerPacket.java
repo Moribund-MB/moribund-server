@@ -10,12 +10,19 @@ import lombok.Value;
  */
 @Value
 public class DrawNewPlayerPacket implements OutgoingPacket {
+    /**
+     * The game ID of the newly made player.
+     */
     private int gameId;
+
     /**
      * The {@link Player}'s unique ID.
      */
     private int playerId;
 
+    /**
+     * The username of the new player.
+     */
     private String username;
 
     /**
@@ -32,5 +39,9 @@ public class DrawNewPlayerPacket implements OutgoingPacket {
      * The angle of rotation of the new player.
      */
     private float rotation;
+
+    /**
+     * The hitpoints of the new player.
+     */
     private int hitpoints;
 }

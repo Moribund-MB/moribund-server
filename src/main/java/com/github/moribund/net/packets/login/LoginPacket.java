@@ -11,10 +11,25 @@ import org.jooq.exception.NoDataFoundException;
 import org.jooq.impl.DSL;
 import org.mindrot.jbcrypt.BCrypt;
 
+/**
+ * A packet sent by the client that a user is attempting to log in.
+ */
 public final class LoginPacket implements IncomingPacket {
+
+    /**
+     * The username inputted, lowercased.
+     */
     private String username;
+
+    /**
+     * The password inputted.
+     */
     private String password;
 
+    /**
+     * A private constructor to ensure the server cannot unexpectedly send this
+     * request to the client.
+     */
     private LoginPacket() { }
 
     @Override
