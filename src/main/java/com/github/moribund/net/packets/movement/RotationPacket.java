@@ -42,6 +42,9 @@ public final class RotationPacket implements IncomingPacket {
     @Override
     public void process(Connection connection) {
         val player = MoribundServer.getInstance().getGameContainer().getGame(gameId).getPlayableCharacter(playerId);
+        if (player == null) {
+            return;
+        }
         player.setRotation(angle);
     }
 }
