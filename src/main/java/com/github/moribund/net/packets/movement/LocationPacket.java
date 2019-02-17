@@ -49,6 +49,9 @@ public final class LocationPacket implements IncomingPacket {
     @Override
     public void process(Connection connection) {
         val player = MoribundServer.getInstance().getGameContainer().getGame(gameId).getPlayableCharacter(playerId);
+        if (player == null) {
+            return;
+        }
         player.setX(x);
         player.setY(y);
     }
